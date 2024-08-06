@@ -1,0 +1,158 @@
+<div class="card">
+    <div class="card-body" style="min-height: 400px;">
+        <div class="mb-0">
+            <div class="mb-2">
+                <div class="row">
+                    <div class="d-flex col col-md-12">
+                        <h3 style="margin: 0px !important;" class="col-md-8 pt-1">{{'Thông tin mã QR' | translate}} {{data.qrcode_id}}</h3>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col col-md-12">
+                        <!-- <p class="label_title col col-md-12">Thông tin chi tiết:</p> -->
+                        <div class="d-flex">
+                            <div class="col col-md-6">
+                                <div>
+                                    <div class="borderQR m-auto">
+                                        <img src="assets/images/qrcode_border.png" style="width: 330px; height: 410px;" alt="">
+                                        <div class="borderGenQR">
+                                            <div class="d-flex m-auto qrcode">
+                                                <qr-code class="m-auto" value="{{data.qr_string}}" size="180" errorCorrectionLevel="M" centerImageSrc="undefined"
+                                                    centerImageSize="undefined" margin="4">
+                                                </qr-code>
+                                            </div>
+                                            <div class="w-full mt-2" style="padding-left: 3.5rem; width: 260px;">
+                                                <div class="d-flex">
+                                                    <span class="col col-md-6" style="color: rgb(43, 43, 223);">Mã thiết bị</span><br>
+                                                    <span class="col col-md-6">{{data.serial_number}}</span><br>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="col col-md-6" style="color: rgb(43, 43, 223);">Số tiền</span><br>
+                                                    <span class="col col-md-6">{{data.amount | currency:'VND':'symbol':'1.0-0'}}</span><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col col-md-6">
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title ">Tên khách hàng:</p>
+                                    <p class="col col-md-6"> {{data.bank_account_name}} </p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Tên ngân hàng:</p>
+                                    <p class="col col-md-6">{{data.bank_name}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Số tài khoản:</p>
+                                    <p class="col col-md-6">{{data.account_number}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Số tiền:</p>
+                                    <p class="col col-md-6">{{data.amount}} VND</p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Mã thiết bị:</p>
+                                    <p class="col col-md-6"> {{data.serial_number}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col col-md-12">
+                        <p class="label_title col col-md-12">Thông tin tài khoản ngân hàng</p>
+                        <div class="d-flex">
+                            <div class="col col-md-4">
+                                <div *ngIf="data" class="align-items-center">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="d-flex flex-column m-4 w-75" style="background: linear-gradient(67.45deg, #278181 -1.69%, #71D8D8 15.97%, #49A9A9 32.39%, #71D8D8 49.33%, #71D8D8 61.51%, #389595 80.58%, #71D8D8 92.76%),
+                                    linear-gradient(108.78deg, #E9E8E8 13.22%, #F1F1F1 33.33%, #DCDCDC 54.71%, #F0F0F0 100%);
+                                    ; border: 0.91px solid;border-radius: 2rem; border-image-source: linear-gradient(108.78deg, #E9E8E8 13.22%, #F1F1F1 33.33%, #DCDCDC 54.71%, #F0F0F0 100%); margin-left: 1rem;">
+                                        <div class="m-4">QRPaysBox</div>
+                                        <div class="d-flex justify-content-center align-items-center flex-column m-4 flex-grow-1">
+                                            <div>{{data.full_name}}</div>
+                                            <div>*** ***{{data.customer_code}}</div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="col col-md-8 mt-4">
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Ngân hàng:</p>
+                                    <p class="col col-md-6">{{data.bank_name || 'không có'}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Số tài khoản:</p>
+                                    <p class="col col-md-6">{{data.bank_account || 'không có'}}</p>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="col col-md-6 label_title color_title_second color_title_second label_title">Chủ tài khoản:</p>
+                                    <p class="col col-md-6">{{data.bank_account_name || 'không có'}}</p>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr> -->
+                <!-- <div class="row">
+                    <div class="col col-md-12">
+                        <p class="label_title col col-md-12">Lịch sử giao dịch</p>
+                        <div class="align-items-center m-4" style="border: 1.3px solid #c4c4c4; border-radius: 15px;">
+                            <div class="table-responsive">
+                                <table id="basic-datatable" class="table table-bordered dt-responsive nowrap  no-footer dtr-inline">
+                                    <thead>
+                                        <tr>
+                                        <th>{{'STT' | translate}}</th>                              
+                                        <th>{{'Số tiền' | translate}}</th>
+                                        <th>{{'Trạng thái' | translate}}</th>
+                                        <th>{{'Ngày giao dịch' | translate}}</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of listData;let i=index">
+                                        <td>{{pageSize*(pageIndex-1)}} </td>
+                                        <td>{{data?.total}}</td>
+                                        <td>
+                                            <span class="font-size-12 badge badge-danger" *ngIf="data.status == '0'">{{'Từ chối' |
+                                                translate}}</span>
+                                            <span class="font-size-12 badge badge-warning" *ngIf="data.status == '2'">{{'Đang xử lý' |
+                                                translate}}</span>
+                                            <span class="font-size-12 badge badge-success" *ngIf="data.status == '1'">{{'Đã duyệt' |
+                                                translate}}</span>
+                                             </td>
+                                        <td>{{data?.created_at | date:'dd/MM/yyyy HH:mm':'GMT'}}</td>
+                                    </tr>
+                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <hr> -->
+        
+                <!-- End search -->
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-end">
+            <!--  -->
+            <!-- <button class="btn btn-success mb-2" (click)="openModal(content)">
+              <i class="mdi mdi-plus mr-2"></i> Th4m dịch vụ
+          </button> -->
+        </div>
+
+    </div>
+</div>
+
+<!-- <ng-template > -->
+
+<!-- </ng-template> -->
+
+

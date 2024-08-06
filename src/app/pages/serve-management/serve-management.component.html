@@ -1,0 +1,323 @@
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-2">
+        <!-- <h5>{{ "Chi tiết đơn hàng" | translate }}</h5> -->
+        <div class="flex-fill row"></div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div class="text-center header">
+          <h2 style="color: #1b4965">Chi tiết đơn hàng</h2>
+          <hr />
+          <h5>{{ name ? name : "Khách mới" }} - {{ tableName }}</h5>
+          <!-- <div>Tìm kiếm đơn hàng</div> -->
+        </div>
+        <hr />
+        <div class="contents">
+          <div class="row row-cols-3 g-3 my-3">
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 1"
+                (click)="filterStatus(1)"
+              >
+                Đang chờ
+              </button>
+            </div>
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 4"
+                (click)="filterStatus(4)"
+              >
+                Đã giao
+              </button>
+            </div>
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 0"
+                (click)="filterStatus(0)"
+              >
+                Tất cả
+              </button>
+            </div>
+          </div>
+          <div
+            class="d-flex listproducts row"
+            *ngFor="let data of listData; let index = index"
+            style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+          >
+            <div class="col-md-2">
+              <img
+                class="rounded"
+                style="height: 113px; width: 100%"
+                src="{{ data?.image }}"
+                alt=""
+              />
+            </div>
+            <div
+              class="col-md-9 d-flex justify-content-between"
+              style="margin-left: 5px"
+            >
+              <div class="d-flex flex-column gap-2">
+                <div class="mb-2">Tên: {{ data?.productName }}</div>
+                <div class="mb-2">
+                  Giá: {{ data?.price | currency : "VND" }}
+                </div>
+                <div class="d-flex mb-2">
+                  <div *ngIf="selectedStatus === 1">
+                    Số lượng:
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-secondary rounded-circle"
+                      style="color: white"
+                      (click)="decreaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    {{ data?.pending }}
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-success rounded-circle"
+                      style="color: white"
+                      (click)="increaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="selectedStatus === 3">
+                    Số lượng:
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-secondary rounded-circle"
+                      style="color: white"
+                      (click)="decreaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    {{ data?.quantity }}
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-success rounded-circle"
+                      style="color: white"
+                      (click)="increaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="selectedStatus === 4">
+                    Số lượng:
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-secondary rounded-circle"
+                      style="color: white"
+                      (click)="decreaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    {{ data?.done }}
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-success rounded-circle"
+                      style="color: white"
+                      (click)="increaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div *ngIf="selectedStatus === 0">
+                    Số lượng:
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-secondary rounded-circle"
+                      style="color: white"
+                      (click)="decreaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    {{ data?.quantity }}
+                    <button
+                      *ngIf="pending"
+                      class="btn btn-success rounded-circle"
+                      style="color: white"
+                      (click)="increaseQuantity(data?.id)"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-2" *ngIf="selectedStatus === 1">
+                  Thành tiền: {{ data.price * data.pending | currency : "VND" }}
+                </div>
+                <div class="mb-2" *ngIf="selectedStatus === 4">
+                  Thành tiền: {{ data.price * data.done | currency : "VND" }}
+                </div>
+                <div class="mb-2" *ngIf="selectedStatus === 0">
+                  Thành tiền:
+                  {{ data.price * data.quantity | currency : "VND" }}
+                </div>
+              </div>
+              <div>
+                <button
+                  *ngIf="pending"
+                  class="btn btn-danger"
+                  (click)="deleteProduct(data?.id)"
+                  style="height: 40px; padding: 10px; margin-top: 30px"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+                <a
+                  *ngIf="flag_next"
+                  style="border: 1px solid red; width: 2rem; height: 1rem"
+                  class="font-size-26 text-danger pt-2 px-2 rounded"
+                  (click)="toDone(data)"
+                  ngbTooltip="{{ 'Chuyển tiếp' | translate }}"
+                >
+                  <i style="font-size: 26px" class="mdi mdi-skip-next"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="position-relative my-4">
+            <div class="d-flex justify-content-between pb-2">
+              <div
+                *ngIf="done"
+                class="bg-gardi ms-2"
+                (click)="updateOrder()"
+                style="padding: 10px; border-radius: 5px"
+              >
+                Tổng số lượng: {{ totalQuantity }}
+              </div>
+              <div
+                style="margin-top: 10px; font-weight: bold"
+                *ngIf="selectedStatus === 1"
+              >
+                Tổng tiền: {{ totalPendingPrice | currency : "VND" }}
+              </div>
+              <div
+                style="margin-top: 10px; font-weight: bold"
+                *ngIf="selectedStatus === 4"
+              >
+                Tổng tiền: {{ totalPrice | currency : "VND" }}
+              </div>
+              <div
+                style="margin-top: 10px; font-weight: bold"
+                *ngIf="selectedStatus === 0"
+              >
+                Tổng tiền: {{ totalPrice | currency : "VND" }}
+              </div>
+            </div>
+          </div>
+          <div class="my-4 row d-flex justify-content-around" *ngIf="pending">
+            <button class="btn col-3 bg-gradient btn-info" routerLink="/menus">
+              Thêm mới
+            </button>
+            <!-- <button class="btn col-3 bg-gradient btn-primary" (click)="toCart()">
+              Giỏ hàng
+            </button> -->
+            <button
+              class="btn col-3 bg-gradient btn-success"
+              (click)="addNeworder()"
+            >
+              Xác nhận đơn
+            </button>
+          </div>
+          <div class="my-4 row d-flex justify-content-around" *ngIf="!pending">
+            <button class="btn col-3 bg-gradient btn-info" routerLink="/menus">
+              Thêm mới
+            </button>
+            <!-- <button
+              *ngIf="!done"
+              class="btn col-3 bg-gradient btn-success"
+              (click)="toCart()"
+            >
+              Giỏ hàng
+            </button> -->
+            <button class="btn col-3 bg-gradient btn-success" (click)="Pays()">
+              Chốt đơn
+            </button>
+          </div>
+          <!-- <div class="my-4 row d-flex justify-content-around">
+            <button class="btn col-3 bg-gradient btn-secondary" routerLink="/split-orders" >
+              Tách đơn
+            </button>
+            <button class="btn col-3 bg-gradient btn-info" (click)="openModal(content)">
+             Ghép đơn
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+    Ghép đơn hàng  
+    </h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData()" [formGroup]="formData">
+        <div class="row">
+          <div class="form-group row col-md-12">
+            <label class="col-md-4 col-form-label required_label">{{
+              "Tên bàn" | translate
+            }}</label>
+            <div class="col-md-12">
+              <input
+                style="border-radius: 2rem"
+                type="text"
+                class="form-control"
+                formControlName="fullName"
+                [ngClass]="{ 'is-invalid': submitted && form.fullName.errors }"
+              />
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <label class="col-md-4 col-form-label required_label">{{
+              "Chọn mã" | translate
+            }}</label>
+            <div class="col-md-12">
+              <input
+                style="border-radius: 2rem"
+                type="text"
+                class="form-control"
+                formControlName="userName"
+                [ngClass]="{ 'is-invalid': submitted && form.userName.errors }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

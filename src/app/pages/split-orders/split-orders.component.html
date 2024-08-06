@@ -1,0 +1,143 @@
+<div class="card">
+    <div class="card-body" style="min-height: 400px">
+      <div class="mb-0">
+        <div class="mb-2">
+          <!-- <h5>{{ "Chi tiết đơn hàng" | translate }}</h5> -->
+          <div class="flex-fill row"></div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div class="text-center header">
+            <h2 style="color: #1b4965">Tách đơn hàng</h2>
+            <!-- <hr /> -->
+            <!-- <h5>{{ name ? name : "Khách mới" }} - {{ tableName }}</h5> -->
+            <!-- <div>Tìm kiếm đơn hàng</div> -->
+          </div>
+          <hr />
+          <div class="contents row d-flex justify-content-start">
+            <div
+              class="row col-5"
+              *ngFor="let data of listData; let index = index"
+              style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+            >
+              <div
+                class="col-md-12"
+                style="margin-left: 5px"
+              >
+                <div class="d-flex flex-column gap-2">
+                  <div class="mb-2">Tên: {{ data?.productName }}</div>
+                  <div class="mb-2">
+                    Giá: {{ data?.price | currency : "VND" }}
+                  </div>
+                  <div class="d-flex mb-2">
+                    <div >
+                      Số lượng:
+                      <button
+                        class="btn btn-secondary rounded-circle"
+                        style="color: white"
+                        (click)="decreaseQuantity(data?.id)"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      {{ data?.pending }}
+                      <button
+                        class="btn btn-success rounded-circle"
+                        style="color: white"
+                        (click)="increaseQuantity(data?.id)"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+            <!-- <div class="position-relative my-4">
+              <div class="d-flex justify-content-between pb-2">
+                <div
+                  style="margin-top: 10px; font-weight: bold"
+                >
+                  Tổng tiền: {{ totalPrice | currency : "VND" }}
+                </div>
+              </div>
+            </div> -->
+            <div class="my-4 row d-flex justify-content-around">
+              <button class="btn col-3 bg-gradient btn-secondary" (click)="openModal(content)">
+                Tách đơn
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content role="document" let-modal="close" style="height: 400px;">
+    <div class="modal-header">
+      <h5 class="modal-title">
+      Tách đơn hàng  
+      </h5>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-3">
+      <div class="text-left">
+        <form (ngSubmit)="saveData()" [formGroup]="formData">
+          <div class="row">
+            <!-- <div class="form-group row col-md-12">
+              <label class="col-md-4 col-form-label required_label">{{
+                "Tên bàn" | translate
+              }}</label>
+              <div class="col-md-12">
+                <input
+                  style="border-radius: 2rem"
+                  type="text"
+                  class="form-control"
+                  formControlName="tableName"
+                  [ngClass]="{ 'is-invalid': submitted && form.tableName.errors }"
+                />
+              </div>
+            </div> -->
+            <div class="form-group row col-md-12">
+              <label class="col-md-7 col-form-label required_label">{{
+                "Nhập tên khách hàng" | translate
+              }}</label>
+              <div class="col-md-12">
+                <input
+                  style="border-radius: 2rem"
+                  type="text"
+                  class="form-control"
+                  formControlName="customerName"
+                  [ngClass]="{ 'is-invalid': submitted && form.customerName.errors }"
+                />
+              
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-secondary btn-lg mr-3"
+              style="width: 150px"
+              (click)="modal('close click')"
+            >
+              {{ "Đóng" | translate }}
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success btn-lg"
+              style="width: 150px"
+            >
+              {{ "Lưu" | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>

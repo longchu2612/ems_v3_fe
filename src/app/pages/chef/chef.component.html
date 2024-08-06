@@ -1,0 +1,145 @@
+<div class="card">
+    <div class="card-body" style="min-height: 400px">
+        <div class="row">
+            <div class="mb-0 col-md-6">
+                <div>
+                    <h5>{{ "Chờ chế biến" | translate }}</h5>
+                    <div class="text-right" style="margin-bottom: -1px">
+                        <button
+                            class="btn btn-xl btn-info"
+                            [ngClass]="{
+                                'btn-active': activeButton === 'priorityButton'
+                            }"
+                            (click)="toggleActive('priorityButton')"
+                        >
+                            Ưu tiên
+                        </button>
+                        <button
+                            class="ml-2 btn btn-xl btn-info"
+                            [ngClass]="{
+                                'btn-active': activeButton === 'tableButton'
+                            }"
+                            (click)="toggleActive('tableButton')"
+                        >
+                            Theo bàn
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsev">
+                    <table
+                        id="basic-datatable"
+                        class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+                    >
+                        <thead>
+                            <tr class="bg-table text-center">
+                                <th>{{ "Tên món" | translate }}</th>
+                                <th>Ghi chú</th>
+                                <th>Số lượng</th>
+                                <th>{{ "TABLE.Actions" | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let data of listData; let i = index">
+                            <tr class="table-contents">
+                                <td>
+                                    {{ data?.name }}
+                                </td>
+                                <td>
+                                    {{ data?.note ? data?.note : "Không có" }}
+                                </td>
+                                <td>
+                                    {{ data?.quantity ? data?.quantity : 1 }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12 col-md-5">
+                    <div class="col-sm-12 col-md-5">
+                        <div
+                            class="dataTable_infor mb-2"
+                            id="ticket-table_info"
+                            role="status"
+                            aria-live="polite"
+                        >
+                            {{ "TABLE.Showing" | translate }}
+                            {{ pageSize * pageIndex - pageSize + 1 }}
+                            {{ "TABLE.to" | translate }}
+                            {{ pageSize * (pageIndex - 1) + listData.length }}
+                            {{ "TABLE.of" | translate }}
+                            {{ totalElements }}
+                            {{ "TABLE.entries" | translate }}
+                        </div>
+                    </div>
+                    <div
+                        class="col-sm-12 col-md-5 d-flex align-items-center justify-content-end"
+                    >
+                        <div
+                            class="text-md-right float-md-right pagination-rounded"
+                        >
+                            <ngb-pagination
+                                [collectionSize]="totalElements"
+                                [(page)]="pageIndex"
+                                [pageSize]="pageSize"
+                                (pageChange)="fetchDataPending()"
+                            >
+                            </ngb-pagination>
+                        </div>
+                        <div
+                            class="dataTables_length ml-3"
+                            id="tickets-table_length"
+                        >
+                            <label
+                                class="d-inline-flex align-items-center mb-0"
+                            >
+                                {{ "TABLE.Show" | translate }}
+                                <select
+                                    name="tickets-table_length"
+                                    aria-controls="tickets-table"
+                                    name="pageSize"
+                                    [(ngModel)]="pageSize"
+                                    (ngModelChange)="
+                                        pageIndex = 1; fetchDataPending()
+                                    "
+                                    class="custom-select custom-select-sm form-control form-control-sm mx-2"
+                                >
+                                    <option [ngValue]="10">10</option>
+                                    <option [ngValue]="25">25</option>
+                                    <option [ngValue]="50">50</option>
+                                    <option [ngValue]="100">100</option>
+                                </select>
+                                {{ "TABLE.entries" | translate }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header">
+        <h5 class="modal-title">
+            {{
+                (formData.value.id ? "Chỉnh sửa bàn" : "Thêm mới bàn")
+                    | translate
+            }}
+        </h5>
+        <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modal('Cross click')"
+        ></button>
+    </div>
+    <div class="modal-body p-3">
+        <div class="modal-body p-3">
+            <div class="text-left">
+                <form (ngSubmit)="saveData()" [formGroup]="formData">
+                    <div class="row">
+                        <div class="form-group row col-md-12"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>

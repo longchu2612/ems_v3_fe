@@ -1,0 +1,453 @@
+<div class="card">
+  <div class="card-body">
+    <div class="mb-0">
+      <div class="mb-2">
+        <div class="row">
+          <div class="col col-md-12">
+            <!-- <h3 class="label_title col col-md-12">Thông tin chi tiết workspace {{data.id}}:</h3> -->
+            <div class="d-flex">
+              <div class="col col-md-6 m-0">
+                <div class="modal-content border border-dark">
+                  <div class="card-body rounded-top">
+                    <h1 class="modal-title fs-5 text-primary font-weight-bold">
+                      {{ data.workspace_name | translate }}
+                    </h1>
+                    <p class="text-info">
+                      {{ "Ngày tạo: " | translate }}
+                      {{ data.created_at | date : "dd/MM/yyyy" }}
+                    </p>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    <div class="modal-footer flex-nowrap">
+                      <span class="col-md-6 m-0"># {{ data.code }}</span>
+                      <span class="col-md-6 m-0"
+                        >Thành viên: {{ countMember }}</span
+                      >
+                    </div>
+                  </div>
+                  <!-- <div class="g-3 card-body row row-cols-1 row-cols-md-2">
+                                        <div class="col">
+                                            <br/>
+                                        </div>                                    
+                                    </div> -->
+                </div>
+              </div>
+              <div class="col col-md-6">
+                <div class="container">
+                  <div class="g-3 row row-cols-1 row-cols-md-2">
+                    <div class="col">
+                      <div class="card shadow-sm border border-info">
+                        <div class="mt-2 mb-2">
+                          <p class="text-center font-weight-bold">
+                            Tổng số tiền
+                          </p>
+                          <p
+                            class="text-center text-success font-weight-bold m-0"
+                          >
+                            {{
+                              allMoney | currency : "VND" : "symbol" : "1.0-0"
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card shadow-sm border border-warning">
+                        <div class="mt-2 mb-2">
+                          <p class="text-center font-weight-bold">
+                            Số giao dịch
+                          </p>
+                          <p class="text-center font-weight-bold m-0">
+                            {{ countTransaction || 0 }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card shadow-sm border border border-success">
+                        <div class="mt-2 mb-2">
+                          <p class="text-center font-weight-bold">Thiết bị</p>
+                          <p class="text-center font-weight-bold m-0">
+                            {{ data.serial_number || "Chưa có" }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="card shadow-sm border border-danger">
+                        <div class="mt-2 mb-2">
+                          <p class="text-center font-weight-bold">Version</p>
+                          <p class="text-center font-weight-bold m-0">
+                            {{ data.version || "Chưa có" }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end d-flex" *ngIf="role == 'user'">
+          <!--  -->
+
+          <button
+            class="btn btn-info mb-2"
+            (click)="openModalLink(contentLink)"
+          >
+            <i class="mdi mdi-plus mr-2"></i> {{ "Liên kết" | translate }}
+          </button>
+        </div>
+        <div class="">
+          <div class="col col-md-12 bg-success border rounded-top">
+            <span class="text-white" style="font-size: 20px"
+              >Thông tin tài khoản</span
+            >
+          </div>
+          <div class="table-responsive">
+            <table
+              id="basic-datatable"
+              class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+            >
+              <thead>
+                <tr class="text-center bg-table">
+                  <th>{{ "Số tài khoản" | translate }}</th>
+                  <th>{{ "Chủ tài khoản" | translate }}</th>
+
+                  <th>{{ "Ngân hàng" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td>{{ data.account_number }}</td>
+                  <td>{{ data.bank_account_name }}</td>
+                  <td>{{ data.bank_name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end d-flex" *ngIf="role == 'user'">
+          <!--  -->
+
+          <button
+            class="btn btn-success mb-2"
+            (click)="openModalMember(contentMember)"
+          >
+            <i class="mdi mdi-plus mr-2"></i>
+            {{ "Thêm thành viên" | translate }}
+          </button>
+        </div>
+        <div class="">
+          <div class="col col-md-12 bg-success border rounded-top">
+            <span class="text-white" style="font-size: 20px"
+              >Danh sách thành viên</span
+            >
+          </div>
+          <div class="table-responsive">
+            <table
+              id="basic-datatable"
+              class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+            >
+              <thead>
+                <tr class="text-center bg-table">
+                  <th>{{ "STT" | translate }}</th>
+                  <th>{{ "Họ tên" | translate }}</th>
+                  <th>{{ "Số điện thoại" | translate }}</th>
+                  <th>{{ "Địa chỉ" | translate }}</th>
+                  <th>{{ "Vai trò" | translate }}</th>
+                  <th>{{ "Ngày vào" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="text-center"
+                  *ngFor="let dataMember of listMember; let i = index"
+                >
+                  <td>{{ pageSize * (pageIndex - 1) + i + 1 }}</td>
+
+                  <!-- <td *ngIf="role ==='admin'">{{data.phone}}</td> -->
+                  <!-- <td *ngIf="role ==='admin'">{{data.workspace_name}}</td> -->
+                  <td>{{ dataMember.full_name }}</td>
+                  <td>{{ dataMember.phone }}</td>
+                  <td>{{ dataMember.address }}</td>
+                  <td>{{ dataMember.type }}</td>
+                  <td>{{ dataMember.created_at | date : "dd/MM/yyyy" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br />
+
+        <div class="">
+          <div class="col col-md-12 bg-success border rounded-top">
+            <span class="text-white" style="font-size: 20px"
+              >Danh sách giao dịch</span
+            >
+          </div>
+          <div class="table-responsive">
+            <table
+              id="basic-datatable"
+              class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+            >
+              <thead>
+                <tr class="text-center">
+                  <th>{{ "STT" | translate }}</th>
+                  <th>{{ "Mã giao dịch" | translate }}</th>
+                  <th>{{ "Mã thiết bị" | translate }}</th>
+                  <th>{{ "Số tài khoản" | translate }}</th>
+                  <th>{{ "Số tiền" | translate }}</th>
+                  <!-- <th>{{'Trạng thái' | translate}}</th> -->
+                  <th>{{ "Ngày giao dịch" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="text-center"
+                  *ngFor="let data2 of listData2; let i = index"
+                >
+                  <td>{{ pageSize * (pageIndex - 1) + i + 1 }}</td>
+
+                  <!-- <td *ngIf="role ==='admin'">{{data.phone}}</td> -->
+                  <!-- <td *ngIf="role ==='admin'">{{data.workspace_name}}</td> -->
+                  <td>{{ data2.code }}</td>
+                  <td>{{ data2.serial_number }}</td>
+                  <td>{{ data2.account_number }}</td>
+                  <td>{{ data2.total }}</td>
+                  <!-- <td>    
+                                        <span class="font-size-12 badge badge-danger" *ngIf="data2.status == '0'">{{'Từ chối' |
+                                            translate}}</span>
+                                        <span class="font-size-12 badge badge-warning" *ngIf="data2.status == '2'">{{'Đang xử lý' |
+                                            translate}}</span>
+                                        <span class="font-size-12 badge badge-success" *ngIf="data2.status == '1'">{{'Đã duyệt' |
+                                            translate}}</span>
+                                    </td> -->
+                  <td>{{ data2.created_at | date : "dd/MM/yyyy" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <!--  -->
+      <!-- <button class="btn btn-success mb-2" (click)="openModal(content)">
+              <i class="mdi mdi-plus mr-2"></i> Th4m dịch vụ
+          </button> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #contentLink role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ "Liên kết thiết bị và tài khoản" | translate }}
+    </h5>
+    <!-- <div *ngIf="makeForm('password').hasError('required')" class="error-message">
+            Mật khẩu không được bỏ trống.
+        </div> -->
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData2()" [formGroup]="formData2">
+        <div class="row">
+          <div class="form-group row col-md-12">
+            <div class="col mt-3">
+              <div class="d-flex">
+                <label class="col-md-4 col-form-label required_label">{{
+                  "Thiết bị" | translate
+                }}</label>
+                <div class="col-md-8">
+                  <ng-select formControlName="device_id">
+                    <ng-option [value]="-1">Chọn thiết bị</ng-option>
+                    <ng-option
+                      [value]="item.device_id"
+                      *ngFor="let item of listDataDivices"
+                    >
+                      {{ item.serial_number }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <div class="col mt-3">
+              <div class="d-flex">
+                <label class="col-md-4 col-form-label required_label">{{
+                  "Tài khoản" | translate
+                }}</label>
+                <div class="col-md-8">
+                  <ng-select formControlName="bankaccount_id">
+                    <ng-option [value]="-1">Chọn tài khoản</ng-option>
+                    <ng-option
+                      [value]="item.id"
+                      *ngFor="let item of listDataBankAccount"
+                    >
+                      {{ item.account_number }} - {{ item.bank_account_name }} -
+                      {{ item.bank_name }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn btn-danger btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+          <!-- <button type="button" class="btn btn-secondary btn-sm" style="width: 150px"
+                    (click)="modal('close click')">{{'FORM.Close' | translate}}</button>
+                <button type="button" class="btn btn-primary btn-sm ml-3" style="width: 150px"
+                    (click)="updateFormNote()">{{'FORM.Save' | translate}}</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentMember role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ "Thêm thành viên" | translate }}</h5>
+    <!-- <div *ngIf="makeForm('password').hasError('required')" class="error-message">
+            Mật khẩu không được bỏ trống.
+        </div> -->
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveDataMember()" [formGroup]="formDataMember">
+        <div class="row">
+          <!-- <div class="form-group row col-md-6">
+                        <label class="col-md-2 col-form-label required_label">{{'Imei' | translate}}</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" formControlName="imei"
+                                [ngClass]="{'is-invalid': submitted && form.imei.errors}" />
+                          
+                        </div>
+                    </div> -->
+          <!-- <div class="form-group row col-md-12" *ngIf="!formData.value.id"> -->
+          <div class="form-group row col-md-12">
+            <label class="col-md-2 col-form-label required_label">{{
+              "Số điện thoại" | translate
+            }}</label>
+            <div class="col-md-8">
+              <input
+                type="phone"
+                class="form-control"
+                formControlName="phone"
+                [ngClass]="{ 'is-invalid': submitted && form.phone.errors }"
+                [(ngModel)]="phone"
+              />
+            </div>
+            <div class="col-md-2">
+              <button
+                type="button"
+                class="text-white btn btn-info"
+                (click)="submitFilter()"
+                style="width: inherit"
+              >
+                Tìm kiếm
+              </button>
+            </div>
+          </div>
+          <div
+            class="row col-md-12 m-4"
+            style="padding-left: 7rem"
+            *ngIf="searching"
+          >
+            <img
+              class="mr-4 rounded-circle avtFilter"
+              src="assets/images/users/avatar-9.png"
+              alt="Avatar"
+            />
+            <div
+              class="d-flex flex-column align-items-start justify-content-center"
+            >
+              {{ phoneResultsName }} - {{ phoneResultsAddress }}
+            </div>
+          </div>
+          <div class="form-group row col-md-12" *ngIf="searching">
+            <label class="col-md-2 col-form-label required_label">{{
+              "Vai trò" | translate
+            }}</label>
+            <!-- <div class="col-md-10">
+                            <input type="number" class="form-control" formControlName="version"
+                                [ngClass]="{'is-invalid': submitted && form.version.errors}" />
+                          
+                        </div> -->
+            <div class="col-md-10">
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                class="form-control"
+                formControlName="type"
+                [ngClass]="{ 'is-invalid': submitted && form.type.errors }"
+              >
+                <option value="{{ item }}" *ngFor="let item of listType">
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center" *ngIf="searching">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            bmitype="sut"
+            class="btn btn-danger btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+          <!-- <button type="button" class="btn btn-secondary btn-sm" style="width: 150px"
+                    (click)="modal('close click')">{{'FORM.Close' | translate}}</button>
+                <button type="button" class="btn btn-primary btn-sm ml-3" style="width: 150px"
+                    (click)="updateFormNote()">{{'FORM.Save' | translate}}</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <ng-template > -->
+
+<!-- </ng-template> -->

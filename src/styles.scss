@@ -1,0 +1,167 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/bootstrap';
+
+.pagination{
+  margin-bottom: 0 !important;
+}
+
+
+.img-placeholder{
+  width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ng-dropdown-panel.ng-select-bottom{
+  z-index: 999999 !important;
+}
+
+.form-control{
+  &:disabled{
+    background-color: #eee;
+    cursor: not-allowed;
+  }
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+
+.custom-day.range,
+.custom-day:hover {
+  background-color: #556ee6;
+  color: white;
+}
+
+.custom-day.faded {
+  background-color: #556ee6;
+}
+
+
+.clearDate{
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  width: 30px;
+  height: 100%;
+  line-height: 36px;
+  text-align: center;
+}
+.clearFilter{
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  width: 30px;
+  height: 100%;
+  line-height: 45px;
+  text-align: center;
+}
+
+.table{
+  a{
+    cursor: pointer;
+  }
+}
+
+.lb-outerContainer{
+  position: static !important;
+  .lb-nav{
+    height: calc(100% - 70px);
+    a{
+      opacity: 1 !important;
+    }
+  }
+
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.required_label{
+  &::after{
+    content: '*';
+    color: red;
+    margin-left: 2px;
+  }
+}
+
+.my-class .modal-dialog {
+    max-width: 80%;
+    width: 80% !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked{
+    background-color: #1B4965 !important;
+    color: #fff !important;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  max-height: 150px;
+  width: 1px; /* Chiều rộng của thanh cuộn */
+}
+
+// SCSS variables
+$column-width: 150px;
+$first-column-width: 50px;
+
+// Common styles for table columns
+.table-column {
+  max-width: $column-width;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Specific style for the first column
+.first-column {
+  max-width: $first-column-width;
+}
+.custom-item {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.custom-item:hover {
+  background-color: #e2e6ea;
+  cursor: pointer;
+}
+.custom-dropdown-item {
+  max-width: 320px; /* Set the desired width */
+  min-width: 320px;
+}
+.active-row {
+  background-color: #e0e0e0; /* Thay đổi thành màu nền mong muốn */
+}
+.smaller-font {
+  font-size: smaller;
+}
+.btn-mb {
+  background-color: #141ed2; /* Màu xanh đậm của ngân hàng MB */
+  color: #ffffff; 
+}
+.bg-table {
+  background-color: #1B4965; 
+  color: white;
+}
+.table-contents td {
+  text-align: center;
+}

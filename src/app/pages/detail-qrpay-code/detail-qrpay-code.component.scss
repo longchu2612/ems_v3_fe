@@ -1,0 +1,22 @@
+.label_title{
+    color: black;
+}
+.color_title_second{
+    color: rgb(28, 28, 244);
+}
+
+.borderQR{
+    position: relative;
+    display: flex;
+}
+
+.borderGenQR{
+    position: absolute;
+    z-index: 999;
+}
+
+.qrcode{
+    display: flex;
+    padding-top: 95px;
+    padding-left: 80px;
+}

@@ -1,0 +1,106 @@
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-2">
+        <!-- <h5>{{ "Chi tiết đơn hàng" | translate }}</h5> -->
+        <div class="flex-fill row"></div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div class="text-center header">
+          <h2 style="color: #1b4965">Chi tiết hóa đơn</h2>
+          <hr />
+          <!-- <h5>{{ name ? name : 'Khách mới'}} - {{ tableName }}</h5> -->
+          <!-- <div>Tìm kiếm đơn hàng</div> -->
+        </div>
+        <hr />
+        <div class="contents">
+          <div
+            class="d-flex row justify-content-center"
+            *ngFor="let data of listData; let index = index"
+            style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+          >
+            <div
+              class="col-md-8 row p-2"
+              style="border: 1px black solid; border-radius: 10px"
+            >
+              <div
+                class="col-md-12 d-flex justify-content-between"
+                style="margin-left: 5px"
+              >
+                <div class="d-flex flex-column gap-2">
+                  <div class="mb-2">Tên: {{ data?.productName }}</div>
+
+                  <div class="d-flex mb-2">
+                    <div>
+                      Số lượng:
+                      <button
+                        class="btn btn-secondary rounded-circle"
+                        style="color: white"
+                        (click)="decreaseQuantity(data?.id)"
+                      >
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      {{ data?.quantity }}
+                      <button
+                        class="btn btn-success rounded-circle"
+                        style="color: white"
+                        (click)="increaseQuantity(data?.id)"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    Tổng tiền:
+                    {{ data.price * data.quantity | currency : "VND" }}
+                  </div>
+                </div>
+                <div class="d-inline text-center">
+                  <div>Giá: {{ data?.price | currency : "VND" }}</div>
+                  <button
+                    class="btn btn-danger"
+                    (click)="deleteProduct(data?.id)"
+                    style="height: 40px"
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="text-right">
+                          <button *ngIf="pending" class="btn btn-warning ms-2" (click)="updateOrder()" style="padding: 10px; border-radius: 5px;">Sửa món</button>
+                      </div> -->
+          <div class="position-relative my-4">
+            <div class="d-flex justify-content-between pb-2">
+              <div
+                class="bg-gardi ms-2"
+                (click)="updateOrder()"
+                style="padding: 10px; border-radius: 5px"
+              >
+                Tổng số lượng: {{ totalQuantity }}
+              </div>
+              <div style="margin-top: 10px; font-weight: bold">
+                Tổng tiền: {{ totalPrice | currency : "VND" }}
+              </div>
+            </div>
+          </div>
+          <div class="my-4 row">
+            <button class="btn col bg-gradient btn-info" routerLink="/menus">
+              Thêm mới
+            </button>
+            <button class="btn col bg-gradient btn-warning" (click)="toCart()">
+              Lưu thay đổi
+            </button>
+            <button class="btn col bg-gradient btn-success" (click)="Pays()">
+              Chốt đơn
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

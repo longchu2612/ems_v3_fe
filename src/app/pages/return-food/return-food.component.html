@@ -1,0 +1,200 @@
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-4">
+        <button class="btn btn-info" (click)="reloadData()">
+          <span class="mdi mdi-reload mdi-spin mdi-24px"></span> 
+        </button>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div class="text-center header">
+          <h2 style="color: #1b4965">Danh sách món ăn</h2>
+          <hr />
+        </div>
+        <hr />
+        <div class="contents">
+          <div class="row row-cols-3 g-3 my-4">
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 1"
+                (click)="filterStatus(1)"
+              >
+                Chờ xác nhận
+              </button>
+            </div>
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 3"
+                (click)="filterStatus(3)"
+              >
+                Chờ phục vụ
+              </button>
+            </div>
+            <div>
+              <button
+                class="btn w-100 text-blue border border-primary rounded-pill"
+                [class.active]="selectedStatus === 4"
+                (click)="filterStatus(4)"
+              >
+                Đã phục vụ
+              </button>
+            </div>
+          </div>
+
+          <!-- <div class="flex listproducts" *ngFor="let data of listData; let index = index" style="margin-left: 10px; margin-right:10px; margin-top : 10px ;">
+                          <div class="w-2/5">
+                              <img class="rounded-2xl" style="height: 113px; width: 100%;" src="{{data?.image}}" alt="">
+                          </div>
+                          <div class="w-3/5 flex justify-between" style="margin-left: 5px;">
+                              <div class="flex flex-col space-y-2">
+                                  <div>Sản phẩm: {{data?.productName}}</div>
+                                  <div>Giá: {{data?.price |currency:'VND'}} </div>
+                                  <div class="flex"> 
+                                      <div>Số lượng đặt: 
+                                          <button *ngIf="pending" style="background-color: #bca6a6; border-radius: 20px;
+                                          width: 23px;
+                                          height: 23px; color: white" (click)="decreaseQuantity(data?.id)"><i class="fa-solid fa-minus"></i></button>
+                                          {{data?.done}}  
+                                          <button *ngIf="pending" style="background-color: #37ec37; border-radius: 20px;
+                                          width: 23px;
+                                          height: 23px; color: white" (click)="increaseQuantity(data?.id)"><i class="fa-solid fa-plus"></i></button> 
+                                      </div>
+                                  </div>
+                                  <div>Tổng tiền: {{data.price*data.quantity |currency:'VND'}}</div>
+  
+                              </div>
+                              <button *ngIf="pending" (click)="deleteProduct(data?.id)" style="height: 40px;padding: 10px; color: rgb(255, 48, 48); border-radius: 10px; margin-top: 30px;">
+                                  <i class="fa-solid fa-trash fa-2xl"></i>
+                              </button>
+  
+                          </div>
+                      </div>
+  
+                      <div class="relative">
+                          <div class="fixed-flex-container flex">
+                              <div style="margin-top: 10px; font-weight: bold;">Tổng tiền: {{totalPrice |currency:'VND'}}</div>
+                              <button  *ngIf="pending" class="bg-blue-900 text-white" (click)="updateOrder()" style="padding: 10px;border-radius: 5px;">Sửa món</button>
+                          </div>
+                      </div> -->
+          <div
+            class="d-flex listproducts row"
+            *ngFor="let data of listData; let index = index"
+            style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+          >
+            <div class="col-md-2">
+              <img
+                class="rounded"
+                style="height: 113px; width: 100%"
+                src="{{ data?.image }}"
+                alt=""
+              />
+            </div>
+            <div
+              class="col-md-9 d-flex justify-content-between"
+              style="margin-left: 5px"
+            >
+              <div class="d-flex flex-column gap-2">
+                <div class="mb-2">Tên: {{ data?.productName }}</div>
+                <div class="mb-2">Bàn: {{ data?.tableName }}</div>
+                <div class="d-flex mb-2">
+                  <div *ngIf="selectedStatus === 1">
+                    Số lượng:
+                    {{ data?.pending }}
+                  </div>
+                  <div *ngIf="selectedStatus === 3">
+                    Số lượng:
+                    {{ data?.serving }}
+                  </div>
+                  <div *ngIf="selectedStatus === 4">
+                    Số lượng:
+                    {{ data?.done }}
+                  </div>
+                </div>
+              </div>
+              <div>
+                <td class="text-center">
+                  <a
+                    *ngIf="selectedStatus === 3"
+                    style="border: 1px solid red; width: 2rem; height: 1rem"
+                    class="font-size-26 text-danger pt-2 mr-2 px-2 rounded"
+                    ngbTooltip="{{ 'Chuyển từng món' | translate }}"
+                    placement="bottom-left"
+                    (click)="toDone(data)"
+                  >
+                    <i
+                      style="font-size: 26px"
+                      class="mdi mdi-chevron-right"
+                    ></i>
+                  </a>
+                  <a
+                    *ngIf="selectedStatus === 3"
+                    style="border: 1px solid red; width: 2rem; height: 1rem"
+                    class="font-size-26 text-danger pt-2 px-2 rounded"
+                    (click)="toDoneAll(data)"
+                    ngbTooltip="{{ 'Chuyển tiếp' | translate }}"
+                  >
+                    <i style="font-size: 26px" class="mdi mdi-skip-next"></i>
+                  </a>
+                  <a
+                    *ngIf="selectedStatus === 4"
+                    style="
+                      border: 1px solid rgba(0, 183, 255, 0.651);
+                      width: 2rem;
+                      height: 1rem;
+                    "
+                    class="font-size-26 text-info pt-2 px-2 rounded"
+                    ngbTooltip="{{ 'Hoàn tác' | translate }}"
+                    placement="bottom-left"
+                    (click)="toPending(data)"
+                  >
+                    <i style="font-size: 26px" class="mdi mdi-chevron-left"></i>
+                  </a>
+                  <a
+                    *ngIf="selectedStatus === 4"
+                    style="
+                      border: 1px solid rgba(0, 183, 255, 0.651);
+                      width: 2rem;
+                      height: 1rem;
+                    "
+                    class="font-size-26 text-info pt-2 px-2 rounded"
+                    ngbTooltip="{{ 'Hoàn tác tất cả' | translate }}"
+                    placement="bottom-left"
+                    (click)="toPendingAll(data)"
+                  >
+                    <i
+                      style="font-size: 26px"
+                      class="mdi mdi-skip-previous"
+                    ></i>
+                  </a>
+                </td>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="text-right">
+                          <button *ngIf="pending" class="btn btn-warning ms-2" (click)="updateOrder()" style="padding: 10px; border-radius: 5px;">Sửa món</button>
+                      </div> -->
+          <!-- <div class="position-relative my-4">
+              <div class="d-flex justify-content-between pb-2">
+                <div
+                  *ngIf="done"
+                  class="bg-gardi ms-2"
+                  (click)="updateOrder()"
+                  style="padding: 10px; border-radius: 5px"
+                >
+                  Tổng số lượng: {{ totalQuantity }}
+                </div>
+                <div style="margin-top: 10px; font-weight: bold">
+                  Tổng tiền: {{ totalPrice | currency : "VND" }}
+                </div>
+              </div>
+            </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

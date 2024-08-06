@@ -1,0 +1,107 @@
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-2">
+        <h5>{{ "Giỏ hàng" | translate }}</h5>
+        <div class="flex-fill row"></div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div class="text-center header">
+          <!-- <h2>E M S xin chào {{ name }}!</h2> -->
+          <!-- <div>Tìm kiếm đơn hàng</div> -->
+        </div>
+        <hr />
+        <div class="contents">
+          <div
+            class="d-flex listproducts row"
+            *ngFor="let data of listData; let index = index"
+            style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+          >
+            <div class="col-2">
+              <img
+                class="rounded-2xl"
+                style="height: 113px; width: 100%"
+                src="{{ data?.image }}"
+                alt=""
+              />
+            </div>
+            <div
+              class="col-9 d-flex justify-content-between"
+              style="margin-left: 5px"
+            >
+              <div class="d-flex flex-column gap-2">
+                <div class="mb-2">Tên: {{ data?.name }}</div>
+                <div class="mb-2">
+                  Giá: {{ data?.price | currency : "VND" }}
+                </div>
+                <div class="d-flex mb-2">
+                  <div>
+                    Số lượng:
+                    <button
+                      class="btn btn-secondary rounded-circle"
+                      style="color: white"
+                      (click)="decreaseQuantity(data?.productId)"
+                    >
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    {{ data?.quantity }}
+                    <button
+                      class="btn btn-success rounded-circle"
+                      style="color: white"
+                      (click)="increaseQuantity(data?.productId)"
+                    >
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="mb-2">
+                  Thành tiền:
+                  {{ data.price * data.quantity | currency : "VND" }}
+                </div>
+              </div>
+              <button
+                class="btn btn-danger"
+                (click)="deleteProduct(data?.productId)"
+                style="height: 40px; padding: 10px; margin-top: 30px"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="position-relative my-4">
+            <div class="d-flex justify-content-between pb-2">
+              <div
+                class="bg-gardi ms-2"
+                style="padding: 10px; border-radius: 5px"
+              >
+                Tổng số lượng: {{ totalQuantity }}
+              </div>
+              <div style="margin-top: 10px; font-weight: bold">
+                Tổng tiền: {{ totalPrice | currency : "VND" }}
+              </div>
+            </div>
+          </div>
+          <div class="my-4 row d-flex justify-content-between">
+            <button class="btn col-3 bg-gradient btn-info" routerLink="/menus">
+              Thêm mới
+            </button>
+            <button
+              class="btn col-3 bg-gradient btn-primary"
+              (click)="updateOrder()"
+            >
+              Gọi món
+            </button>
+            <button
+              class="btn col-3 bg-gradient btn-success"
+              (click)="toDetails()"
+            >
+              Chi tiết đơn hàng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

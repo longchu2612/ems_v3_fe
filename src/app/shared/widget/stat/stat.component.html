@@ -1,0 +1,28 @@
+<div class="card" >
+    <div class="card-body" style="padding: 1rem;">
+        <div class="text-primary">
+            <div style="padding: 5px; width: 35px; text-align: center; border-radius:50%;" [style.backgroundColor]="bgColor">
+              <i class="{{icon}} font-size-20" [style.color]="color"></i>
+            </div>
+        </div>
+        <div class="media mt-2">
+            <div class="media-body overflow-hidden">
+              <h4 class="mb-0 font-weight-bold">{{value}}</h4>
+              <p class="text-truncate font-size-14 mb-0">{{title}}</p>
+            </div>
+
+        </div>
+    </div>
+    <div class="chartjs-chart">
+        <!-- Line Chart -->
+        <canvas baseChart
+            #myCanvas
+            height="100"
+            [datasets]="lineAreaChart.datasets"
+            [labels]="lineAreaChart.labels"
+            [options]="lineAreaChart.options"
+            [colors]="lineChartColors"
+            chartType="line">
+        </canvas>
+    </div>
+</div>

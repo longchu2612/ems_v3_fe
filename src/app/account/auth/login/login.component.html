@@ -1,0 +1,187 @@
+<div class="home-btn d-none d-sm-block">
+  <a routerLink=""><i class="mdi mdi-home-variant h2 text-dark"></i></a>
+</div>
+<div>
+  <div class="container-fluid p-0">
+    <div class="row no-gutters">
+      <div class="col-lg-7 pl-4 bg-light">
+        <div
+          class="authentication-page-content p-4 d-flex align-items-center min-vh-100"
+        >
+          <div class="w-100">
+            <div class="row justify-content-center">
+              <div class="col-lg-8">
+                <div>
+                  <div class="text-center">
+                    <div>
+                      <a routerLink="/" class="logo"
+                        ><img
+                          src="assets/images/logo_qrpaybox.png"
+                          width="200"
+                          alt="logo"
+                      /></a>
+                    </div>
+                    <h4 class="font-size-18 mt-2">
+                      {{ "Eatery Management System" | translate }}
+                    </h4>
+                    <p class="text-muted">
+                      {{ "Đăng nhập để tiếp tục sử dụng" | translate }}
+                    </p>
+                  </div>
+
+                  <div class="p-2 mt-5">
+                    <form
+                      class="form-horizontal"
+                      [formGroup]="loginForm"
+                      (ngSubmit)="onSubmit()"
+                    >
+                      <ngb-alert
+                        type="danger"
+                        *ngIf="error"
+                        [dismissible]="false"
+                      >
+                        {{ "Tên tài khoản hoặc mật khẩu sai" | translate }}
+                      </ngb-alert>
+                      <div class="form-group auth-form-group-custom mb-4">
+                        <i class="ri-user-2-line auti-custom-input-icon"></i>
+                        <label for="username">{{
+                          "Tên đăng nhập" | translate
+                        }}</label>
+                        <input
+                          type="text"
+                          formControlName="username"
+                          class="form-control"
+                          id="username"
+                          placeholder="{{ 'Nhập tên đăng nhập' | translate }}"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.username.errors
+                          }"
+                        />
+                        <div
+                          *ngIf="submitted && f.username.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.username.errors.required">
+                            {{ "Tên đăng nhập là bắt buộc" | translate }}
+                          </div>
+                          <!-- <div *ngIf="f.email.errors.email">Email must be a valid email
+                                                        address</div> -->
+                        </div>
+                      </div>
+
+                      <!-- <div class="form-group auth-form-group-custom mb-4">
+                                                <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                                                <label for="password">{{'Mật khẩu' | translate}}
+                                                    <a class="font-size-18 text-dark" (click)="toggleShowPassword()">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </a>                                                   
+                                                </label>
+                                                <input *ngIf="!showPassword" type="password" formControlName="password" class="form-control"
+                                                    id="password"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                                                    placeholder="{{'Mật khẩu' | translate}}"  />
+                                                <input *ngIf="showPassword" type="text" formControlName="password" class="form-control"
+                                                    id="password"
+                                                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                                                    placeholder="{{'Mật khẩu' | translate}}" />
+
+                                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.password.errors.required">{{'Mật khẩu chưa được nhập' | translate}}</div>
+                                                </div>  
+                                            </div> -->
+                      <div class="form-group auth-form-group-custom mb-4">
+                        <div class="d-flex align-items-center">
+                          <div class="flex-grow-1">
+                            <i
+                              class="ri-lock-2-line auti-custom-input-icon"
+                            ></i>
+                            <label for="password">{{
+                              "Mật khẩu" | translate
+                            }}</label>
+                          </div>
+                          <div style="position: relative">
+                            <a
+                              style="position: absolute; top: 1rem; right: 1rem"
+                              class="font-size-18 text-dark"
+                              (click)="toggleShowPassword()"
+                            >
+                              <i class="mdi mdi-eye"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <input
+                          *ngIf="!showPassword"
+                          type="password"
+                          formControlName="password"
+                          class="form-control"
+                          id="password"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.password.errors
+                          }"
+                          placeholder="{{ 'Nhập mật khẩu' | translate }}"
+                        />
+                        <input
+                          *ngIf="showPassword"
+                          type="text"
+                          formControlName="password"
+                          class="form-control"
+                          id="password"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.password.errors
+                          }"
+                          placeholder="{{ 'Nhập mật khẩu' | translate }}"
+                        />
+
+                        <div
+                          *ngIf="submitted && f.password.errors"
+                          class="invalid-feedback"
+                        >
+                          <div *ngIf="f.password.errors.required">
+                            {{ "Mật khẩu chưa được nhập" | translate }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <div class="custom-control custom-checkbox">
+                        <input
+                          type="checkbox"
+                          class="custom-control-input"
+                          id="customControlInline"
+                          formControlName="rememberMe"
+                        />
+                        <label
+                          class="custom-control-label"
+                          for="customControlInline"
+                          >{{ "Ghi nhớ" | translate }}</label
+                        >
+                      </div> -->
+
+                      <div class="mt-4 text-center">
+                        <button
+                          class="btn btn-mb waves-effect waves-light col-12"
+                          type="submit"
+                        >
+                          {{ "Đăng nhập" | translate }}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block">
+        <div style="width: 100%; height: 100%">
+          <img
+            class="img-fluid"
+            src="assets/images/logo-login2.png"
+            style="height: 100% !important"
+            alt="bg-logo"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

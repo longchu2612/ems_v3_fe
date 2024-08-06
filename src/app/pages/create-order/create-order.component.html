@@ -1,0 +1,757 @@
+<!-- <app-pagetitle title="{{'PAGE.REPORT.BreadcrumbTitle' | translate}}"
+    [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
+
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-2">
+        <h5>{{ "Quản lý đơn hàng" | translate }}</h5>
+        <div class="row">
+          <div class="col-3">
+            <div class="form-group">
+              <label for="validationCustom01">{{
+                "Chọn ngày: " | translate
+              }}</label>
+              <div>
+                <ng-template #t let-date let-focused="focused">
+                  <span
+                    class="custom-day"
+                    [class.focused]="focused"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null"
+                  >
+                    {{ date.day }}
+                  </span>
+                </ng-template>
+                <div class="position-relative">
+                  <input
+                    type="text"
+                    class="form-control date"
+                    (click)="hidden = !hidden"
+                    name="daterange"
+                    autocomplete="off"
+                    [(ngModel)]="selected"
+                    readonly
+                    placeholder="{{ 'Ngày/ Tháng/ Năm' | translate }}"
+                  />
+                  <span class="clearDate" *ngIf="selected" (click)="clearDate()"
+                    >x</span
+                  >
+                </div>
+
+                <ngb-datepicker
+                  #dp
+                  (select)="onDateSelection($event)"
+                  [displayMonths]="2"
+                  [dayTemplate]="t"
+                  outsideDays="hidden"
+                  [hidden]="hidden"
+                >
+                </ngb-datepicker>
+              </div>
+            </div>
+          </div>
+          <div class="flex-fill row">
+            <!-- <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="validationCustom01">{{'PAGE.REPORT.IncidentType' | translate}}</label>
+                                        <ng-select [(ngModel)]="filter.type_id" [clearable]="false">
+                                            <ng-option [value]="-1">{{'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</ng-option>
+                                            <ng-option [value]="item.id" *ngFor="let item of listType">
+                                                {{item.name}}</ng-option>
+                                        </ng-select>
+                                        <select class="form-control" [(ngModel)]="filter.type_id">
+                                            <option value="">{{'PAGE.REPORT.SelectIncidentType' | translate}}</option>
+                                            <option [ngValue]="item.id" *ngFor="let item of listType">{{item.name}}</option>
+                                        </select>
+                                    </div>
+                                </div> -->
+            <!-- <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="validationCustom01">{{'PAGE.REPORT.Location' | translate}}</label>
+                                        <ng-select [(ngModel)]="filter.location_id" [clearable]="false">
+                                            <ng-option [value]="-1">{{'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</ng-option>
+                                            <ng-option [value]="item.id" *ngFor="let item of location$|async">
+                                                {{item.name}}</ng-option>
+                                            <ng-option [value]="0"> {{'PAGE.REPORT.other' | translate}}</ng-option>
+                                        </ng-select>
+                                    </div>
+                                </div> -->
+            <div class="col-4">
+              <div class="form-group">
+                <label for="validationCustom01">{{
+                  "Chọn trạng thái" | translate
+                }}</label>
+                <ng-select [(ngModel)]="filter.status" [clearable]="false">
+                  <!-- <ng-option [value]="-1">{{'PAGE.REPORT.SelectIncidentType' | translate}}</ng-option>
+                                            <ng-option [value]="item.id" *ngFor="let item of listType"> {{item.name}}</ng-option> -->
+                  <ng-option [value]="-1">{{
+                    "Trạng thái" | translate
+                  }}</ng-option>
+                  <ng-option [value]="2">{{ "Từ chối" | translate }}</ng-option>
+                  <!-- <ng-option [value]="2">{{'PAGE.REPORT.OnGoing' | translate}}</ng-option> -->
+                  <ng-option [value]="1">{{
+                    "Đang xử lý" | translate
+                  }}</ng-option>
+                  <ng-option [value]="0">{{
+                    "Đã duyệt" | translate
+                  }}</ng-option>
+                </ng-select>
+                <!-- <select class="form-control" [(ngModel)]="filter.status">
+                                        </select> -->
+              </div>
+            </div>
+            <div class="col-4">
+              <div style="min-width: 200px; padding-left: 15px">
+                <div class="form-group">
+                  <label for="validationCustom01" class="d-block">&nbsp;</label>
+                  <button class="btn btn-primary" (click)="submitFilter()">
+                    {{ "PAGE.REPORT.Search" | translate }}
+                  </button>
+                  <button
+                    class="btn btn-dark ml-2"
+                    *ngIf="searching"
+                    (click)="clearFilter()"
+                  >
+                    {{ "FORM.Clear" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- End search -->
+      </div>
+      <div class="d-flex justify-content-end">
+        <!--  -->
+        <button
+          class="btn btn-success mb-2"
+          (click)="showAlert('Nâng cấp gói dịch vụ')"
+        >
+          <i class="mdi mdi-plus mr-1"></i> {{ "Thêm" | translate }}
+        </button>
+      </div>
+      <div class="table-responsive">
+        <table
+          id="basic-datatable"
+          class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+        >
+          <thead>
+            <tr>
+              <!-- <th>STT</th> -->
+              <th>{{ "STT" | translate }}</th>
+              <!-- <th>{{'PAGE.REPORT.Type' | translate}}</th> -->
+              <th>{{ "Số hóa đơn" | translate }}</th>
+              <!-- <th>{{'Ngày xuất hóa đơn' | translate}}</th> -->
+              <!-- <th>{{'PAGE.REPORT.Location' | translate}}</th> -->
+              <th>{{ "Trạng thái" | translate }}</th>
+              <th>{{ "Ngày tạo hóa đơn" | translate }}</th>
+              <th>{{ "Loại hình thanh toán" | translate }}</th>
+              <!-- <th>{{'Nội dung thanh toán' | translate}}</th> -->
+              <!-- <th>Ngày tạo đơn</th>-->
+              <!-- <th>{{'Cập nhập' | translate}}</th> -->
+              <!-- <th>{{'TABLE.Actions' | translate}}</th> -->
+              <th>{{ "Action" | translate }}</th>
+            </tr>
+          </thead>
+          <!-- tbody *ngFor="let data of listData;let i=index"> -->
+          <tbody>
+            <!-- tr (click)="viewDetails(data)" class="clickable" -->
+            <tr>
+              <!-- <td>{{i+(pageSize*pageIndex - pageSize + 1)}}</td> -->
+              <!-- <td style="text-decoration: underline; color: #204cd9 ;"
+                                        (click)="onDetailBooking(data, detailBooking)">#{{data?.id}}</td> -->
+              <td>
+                <!-- {{pageSize*(pageIndex-1) +i+1}} -->
+                1
+              </td>
+              <td>
+                <!-- {{data?.transaction_total }} VND -->
+                Nhóm
+              </td>
+              <td>
+                <!-- {{data?.device_id}} -->
+                TB001
+              </td>
+              <td>Chuyển khoản thành công</td>
+              <td>
+                <!-- {{data?.transaction_code}} -->
+                100.000 VND
+              </td>
+              <!-- <td>
+                                        <ng-container *ngIf="data.location_id; else location_other">
+                                            {{data?.location_detail?.name}}
+                                        </ng-container>
+                                        <ng-template #location_other>
+                                            {{data?.location_other?.formatted_address}}
+                                        </ng-template>
+                                    </td> -->
+              <!-- <td>{{data?.details.}}</td> -->
+              <!-- <td>
+                                        <span class="badge badge-success" *ngIf="data.status == 'waiting'">Đơn hàng mới</span>
+                                        <span class="badge badge-danger" *ngIf="data.status == 'accepted'">Đã được thợ nhận</span>
+                                        <span class="badge badge-danger" *ngIf="data.status == 'reject'">Đơn hàng bị từ chối</span>
+                                        <span class="badge badge-danger" *ngIf="data.status == 'on_doing'">Đang tiến hành</span>
+                                        <span class="badge badge-danger" *ngIf="data.status == 'completed'">Đơn hàng hoàn
+                                            thành</span>
+                                        <span class="badge badge-danger" *ngIf="data.status == 'canceled'">Đơn hàng bị huỷ</span>
+                                    </td> -->
+
+              <!-- <td>{{data.transaction_created_at | date:'dd/MM/yyyy HH:mm'}}</td> -->
+              <!-- <td>{{data.transaction_updated_at | date:'dd/MM/yyyy HH:mm'}}</td> -->
+              <td class="py-2">
+                <div class="d-flex" style="gap: 5px">
+                  <a
+                    class="font-size-18 text-success"
+                    ngbTooltip="{{ 'Chi tiết' | translate }}"
+                    (click)="detailQRCode()"
+                  >
+                    <i class="mdi mdi-eye"></i>
+                  </a>
+                  <a class="font-size-18" ngbTooltip="{{ 'Sửa' | translate }}">
+                    <i class="mdi mdi-pen"></i>
+                  </a>
+                  <a
+                    class="font-size-18 text-danger"
+                    ngbTooltip="{{ 'Xóa' | translate }}"
+                  >
+                    <i class="mdi mdi-delete"></i>
+                  </a>
+
+                  <!-- <a class="font-size-18 text-success" ngbTooltip="{{'Chi tiết' | translate}}" (click)="viewDetails(data)">
+                                                <i class="mdi mdi-eye"></i>
+                                
+                                            </a>
+                                            <a class="font-size-18" ngbTooltip="{{'Sửa' | translate}}" href="javascript: void(0);">
+                                                <i class="mdi mdi-pen"></i>
+                                                
+                                            </a>
+                                            <a class="font-size-18 text-danger" ngbTooltip="{{'Xóa' | translate}}">
+                                                <i class="mdi mdi-delete"></i> 
+                                            </a> -->
+                </div>
+              </td>
+              <!-- <td> -->
+              <!-- <a class="dropdown-item" (click)="onDetailBooking(data, detailBooking)">
+                                            <i class="mdi mdi-account-edit mr-1"></i>{{'PAGE.REPORT.ViewDetail' | translate}}
+                                        </a>
+                                        <a class="dropdown-item" *ngIf="data.images?.length > 0"
+                                            (click)="onEdit(data, content)">
+                                            <i class="mdi mdi-folder-multiple-image mr-1"></i>{{'PAGE.REPORT.ViewImage' |
+                                            translate}}
+                                        </a> -->
+
+              <!-- <a class="dropdown-item" href="javascript: void(0);" (click)="onDone(data)">
+                                            <i class="mdi mdi-check"></i> Hoàn thành đơn
+                                        </a>
+                                        <a class="dropdown-item" href="javascript: void(0);" (click)="onDelete(data)">
+                                            <i class="mdi mdi-delete"></i>Huỷ đơn
+                                        </a> -->
+
+              <!-- <div ngbDropdown placement="bottom-left">
+                                          <i class="mdi mdi-dots-vertical dropdown-toggle" ngbDropdownToggle
+                                              data-toggle="dropdown" aria-expanded="true"></i>
+                                          <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+        
+                                          </div>
+                                      </div> -->
+              <!-- </td> -->
+              <!-- <td>
+                                        <div class="d-flex">
+                                            <button class="btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-text" viewBox="0 0 16 16">
+                                                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                                    <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+                                                  </svg>
+                                            </button>
+                                        </div>
+                                    </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-md-between align-items-md-center mt-2">
+        <div class="col-sm-12 col-md-5">
+          <div
+            class="dataTables_info mb-2"
+            id="tickets-table_info"
+            role="status"
+            aria-live="polite"
+          >
+            {{ "TABLE.Showing" | translate }}
+            {{ pageSize * pageIndex - pageSize + 1 }}
+            {{ "TABLE.to" | translate }}
+            {{ pageSize * (pageIndex - 1) + listData.length }}
+            {{ "TABLE.of" | translate }}
+            {{ totalElements }}
+            {{ "TABLE.entries" | translate }}
+          </div>
+        </div>
+        <!-- Pagination -->
+        <div
+          class="col-sm-12 col-md-5 d-flex align-items-center justify-content-end"
+        >
+          <div class="text-md-right float-md-right pagination-rounded">
+            <ngb-pagination
+              [collectionSize]="totalElements"
+              [(page)]="pageIndex"
+              [pageSize]="pageSize"
+              (pageChange)="fetchData()"
+            >
+            </ngb-pagination>
+          </div>
+          <div class="dataTables_length ml-3" id="tickets-table_length">
+            <label class="d-inline-flex align-items-center mb-0">
+              {{ "TABLE.Show" | translate }}
+              <select
+                name="tickets-table_length"
+                aria-controls="tickets-table"
+                name="pageSize"
+                [(ngModel)]="pageSize"
+                (ngModelChange)="pageIndex = 1; fetchData()"
+                class="custom-select custom-select-sm form-control form-control-sm mx-2"
+              >
+                <option [ngValue]="10">10</option>
+                <option [ngValue]="25">25</option>
+                <option [ngValue]="50">50</option>
+                <option [ngValue]="100">100</option>
+              </select>
+              {{ "TABLE.entries" | translate }}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <!--  -->
+      <!-- <button class="btn btn-success mb-2" (click)="openModal(content)">
+                      <i class="mdi mdi-plus mr-2"></i> Thêm dịch vụ
+                  </button> -->
+    </div>
+  </div>
+</div>
+
+<!-- <ng-template > -->
+
+<!-- </ng-template> -->
+
+<ng-template #content role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ (formData.value.id ? "FORM.Edit" : "FORM.AddNew") | translate }}
+    </h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <!-- <form (ngSubmit)="saveData()" [formGroup]="formData">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="col">
+                                <div class="d-flex">
+                                    <label class="col-md-5 col-form-label required_label">{{'Mã thiết bị' |
+                                        translate}}</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control" formControlName="mid"
+                                            [ngClass]="{'is-invalid': submitted && form.mid.errors}" />
+    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mt-3">
+                                <div class="d-flex">
+                                    <label class="col-md-5 col-form-label required_label">{{'Token' | translate}}</label>
+                                    <div class="col-md-7">
+                                        <input type="text" class="form-control" formControlName="token"
+                                            [ngClass]="{'is-invalid': submitted && form.token.errors}" />
+    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mt-3">
+                                <div class="d-flex">
+                                    <label class="col-md-5 col-form-label required_label">{{'Giá tiền' | translate}}</label>
+                                    <div class="col-md-7">
+                                        <input type="number" min="0" class="form-control" formControlName="amount"
+                                            [ngClass]="{'is-invalid': submitted && form.amount.errors}" />
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex col col-md-6">
+                            <div class="m-auto">
+                                <qr-code value="{{qrCodeValue}}"
+                                    size="200"
+                                    errorCorrectionLevel="M"
+                                    centerImageSrc="undefined"
+                                    centerImageSize="undefined"
+                                    margin="4">
+                                </qr-code>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="text-right mt-3">
+                        <button type="button" class="btn btn-secondary btn-sm mr-3" (click)="modal('close click')">{{'Đóng'
+                            | translate}}</button>
+                        <button type="submit" class="btn btn-primary btn-sm">{{'Lưu' | translate}}</button>
+                    </div>
+                </form> -->
+      <form (ngSubmit)="saveData()" [formGroup]="formData">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="d-flex mt-3">
+              <label class="col-md-5 col-form-label required_label">{{
+                "Nhập mã thiết bị" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="mid"
+                [ngClass]="{ 'is-invalid': submitted && form.mid.errors }"
+              />
+            </div>
+            <div class="d-flex mt-3">
+              <label class="col-md-5 col-form-label required_label">{{
+                "Nhập tên thiết bị" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="mid"
+                [ngClass]="{ 'is-invalid': submitted && form.mid.errors }"
+              />
+            </div>
+            <div class="d-flex mt-3">
+              <label class="col-md-5 col-form-label required_label">{{
+                "Nhập số tiền" | translate
+              }}</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="mid"
+                [ngClass]="{ 'is-invalid': submitted && form.mid.errors }"
+              />
+            </div>
+            <div class="d-flex mt-3">
+              <label class="col-md-5 col-form-label required_label">{{
+                "Ghi chú" | translate
+              }}</label>
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex">
+              <img src="" alt="" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #detailBooking role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ "PAGE.REPORT.IncidentType" | translate }}</h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <!-- <h4>Mã đơn hàng #{{selectedBooking?.id}}</h4> -->
+      <div>
+        <ng-container *ngIf="selectedBooking as cus">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.trackCode" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong>
+                    {{ cus?.code }}
+                  </strong>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Location" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong>
+                    <ng-container *ngIf="cus.location_id; else location_other1">
+                      {{ cus?.location_detail?.name }}
+                    </ng-container>
+                    <ng-template #location_other1>
+                      {{ cus?.location_other?.formatted_address }}
+                    </ng-template>
+                  </strong>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Detail" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong>{{ cus.details }}</strong>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Type" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <select
+                    class="form-control form-control-sm"
+                    [(ngModel)]="formUpdate.type_id"
+                  >
+                    <option [ngValue]="item.id" *ngFor="let item of listType">
+                      {{ item.name }}
+                    </option>
+                  </select>
+                  <!-- <strong *ngIf="!cus.``suggest_type">{{cus.incident_type?.name}}</strong> -->
+                </div>
+              </div>
+              <div class="row mt-2" *ngIf="cus.suggest_type">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.SuggestIncident" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong class="text-danger">{{ cus.suggest_type }}</strong>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "TABLE.CreatedDate" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong>{{
+                    cus.created_at | date : "dd/MM/yyyy HH:mm"
+                  }}</strong>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Image" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <div class="d-flex" style="gap: 5px; overflow: auto">
+                    <div
+                      class="border rounded clickable d-flex position-relative overflow-hidden"
+                      style="
+                        padding: 2px;
+                        max-width: 200px;
+                        max-height: 150px;
+                        min-width: 150px;
+                        min-height: 150px;
+                        border-radius: 5px;
+                      "
+                      *ngFor="let item of _albums; let index = index"
+                    >
+                      <img
+                        [src]="item.src"
+                        [alt]="item.filename"
+                        (click)="open(index)"
+                        (error)="onImgError($event)"
+                        class="img-fluid m-auto mh-100"
+                      />
+                    </div>
+                    <!-- <span class="font-size-13 mt-2 d-block text-danger"
+                                                        *ngIf="item.classification">{{item.classification}}</span> -->
+                  </div>
+                  <!-- <button class="btn btn-sm btn-primary" *ngIf="cus.images?.length > 0"
+                                                (click)="onEdit(cus, content)">{{'PAGE.REPORT.ViewImage' | translate}}</button> -->
+                </div>
+              </div>
+              <div class="row mt-2" *ngIf="cus.imageClasstification">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.ImageClasstification" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <strong class="text-danger">{{
+                    cus.imageClasstification?.classification
+                  }}</strong>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Status" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <select
+                    class="form-control form-control-sm"
+                    [(ngModel)]="formUpdate.status"
+                  >
+                    <option [ngValue]="1">
+                      {{ "PAGE.REPORT.New" | translate }}
+                    </option>
+                    <option [ngValue]="2">
+                      {{ "PAGE.REPORT.OnGoing" | translate }}
+                    </option>
+                    <option [ngValue]="3">
+                      {{ "PAGE.REPORT.Pending" | translate }}
+                    </option>
+                    <option [ngValue]="4">
+                      {{ "PAGE.REPORT.Done" | translate }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label class="col-md-3">{{
+                  "PAGE.REPORT.Note" | translate
+                }}</label>
+                <div class="col-md-9">
+                  <textarea
+                    class="form-control form-control-sm"
+                    [(ngModel)]="formUpdate.note"
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-4" style="min-height: 280px">
+                                    <google-map height="100%" width="100%" [center]="center" [zoom]="zoom">
+                                        <map-marker [position]="center">
+                                        </map-marker>
+                                    </google-map>
+                                </div> -->
+          </div>
+        </ng-container>
+        <div class="text-center mt-5">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "FORM.Close" | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm ml-3"
+            style="width: 150px"
+            (click)="updateFormNote()"
+          >
+            {{ "FORM.Save" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentHistory let-modalHis="modal">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Theo dõi lịch sử đơn hàng #{{ selectedBookingTracks.id }}
+    </h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modalHis('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="table-responsive">
+      <table
+        id="basic-datatable"
+        class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+      >
+        <thead>
+          <tr>
+            <th>STT</th>
+            <!-- <th>Sự kiện</th> -->
+            <th>Trạng thái</th>
+            <th>Mô tả</th>
+            <th>Thời gian</th>
+          </tr>
+        </thead>
+        <tbody
+          *ngFor="
+            let data of selectedBookingTracks.order_trackings;
+            let i = index
+          "
+        >
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span *ngIf="data.status == 'waiting' && !data.employee_id"
+                >Đơn hàng đang chờ</span
+              >
+              <span *ngIf="data.status == 'waiting' && data.employee_id"
+                >Đơn hàng được chuyển cho nhân viên</span
+              >
+              <span *ngIf="data.status == 'accepted'">Nhân viên nhận đơn</span>
+              <span *ngIf="data.status == 'rejected'"
+                >Nhân viên từ chối đơn</span
+              >
+              <span *ngIf="data.status == 'on_doing'"
+                >Đơn đang được thực hiện</span
+              >
+              <span *ngIf="data.status == 'completed'"
+                >Đơn hàng hoàn thanh</span
+              >
+              <span *ngIf="data.status == 'canceled'">Đơn hàng bị huỷ</span>
+              <!-- {{ && 'Đơn hàng đang chờ'}}
+                                    {{(data.status == 'waiting' && data.employee_id) && 'Đơn hàng được chuyển cho nhân viên'}}
+                                    {{(data.status == 'accepted') && 'Nhân viên nhận đơn'}}
+                                    {{(data.status == 'rejected') && 'Nhân viên từ chối đơn'}}
+                                    {{(data.status == 'on_doing') && 'Đơn đang được thực hiện'}}
+                                    {{(data.status == 'completed') && 'Đơn hàng hoàn thanh'}}
+                                    {{(data.status == 'canceled') && 'Đơn hàng bị huỷ'}} -->
+            </td>
+            <td>
+              {{ data.notes }}
+              <!-- <span class="badge badge-success" *ngIf="data.body.current_status == 1">Đơn hàng mới</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 2">Đang tìm nhân
+                                        viên</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 3">Đã được gán</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 4">Đơn hàng chưa được
+                                        tiếp
+                                        nhận</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 5">Đơn hàng bị từ
+                                        chối</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 6">Đang tiến hành</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 7">Đơn hàng hoàn
+                                        thành</span>
+                                    <span class="badge badge-danger" *ngIf="data.body.current_status == 8">Đơn hàng bị
+                                        huỷ</span> -->
+            </td>
+            <!-- <td>
+                                    <ng-container *ngIf="data.body as d">
+                                        <span *ngIf="d.previous_employee != d.employee_assigned">Đổi nhân viên</span>
+                                        <span>
+                                            {{d.error}}
+                                        </span>
+                                    </ng-container>
+                                </td> -->
+            <td>{{ data.created_at | date : "dd/MM/yyyy HH:mm:ss" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

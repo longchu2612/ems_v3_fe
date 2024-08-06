@@ -1,0 +1,184 @@
+<!-- <app-pagetitle title="{{'PAGE.REPORT.BreadcrumbTitle' | translate}}"
+    [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
+
+<div class="card">
+    <div class="card-body" style="min-height: 400px">
+        <div class="mb-0">
+            <div class="text-center">
+                <h3 class="font-extrabold">{{ nameShop }}</h3>
+            </div>
+            <div class="text-center">
+                <div style="font-size: medium">{{ addressShop }}</div>
+            </div>
+            <div class="text-center mb-4">
+                <div>{{ phoneShop }}</div>
+            </div>
+            <div class="text-center">
+                <h2 class="font-extrabold">Chi tiết giao dịch</h2>
+            </div>
+            <div class="text-center">
+                <h6 class="font-extrabold">
+                    <span>Mã hóa đơn: </span> {{ orderId }}
+                </h6>
+            </div>
+            <div class="ml-2 mb-2 d-flex">
+                <h6>Ngày tạo đơn: {{ createdAt }}</h6>
+            </div>
+            <div class="ml-2 mb-2 d-flex">
+                <h6 class="mt-1">Khách:</h6>
+                <input
+                    type="text"
+                    style="border: none"
+                    class="rounded"
+                    [(ngModel)]="name"
+                    placeholder="{{ name }}"
+                    readonly
+                />
+            </div>
+            <div class="ml-2 mb-2 d-flex">
+                <h6 class="font-weight-700">Bàn: {{ tableName }}</h6>
+            </div>
+            <div class="ml-2 mb-2 d-flex">
+                <h6>Thu ngân: {{ cashierName }}</h6>
+            </div>
+            <div></div>
+        </div>
+        <hr />
+        <div class="mx-2">
+            <div class="list-payment">
+                <table
+                    border="1"
+                    style="width: 100%; border-collapse: collapse"
+                >
+                    <thead>
+                        <tr>
+                            <th
+                                style="
+                                    text-align: left;
+                                    border: 1px solid black;
+                                    padding: 10px;
+                                "
+                            >
+                                #
+                            </th>
+                            <th
+                                style="
+                                    text-align: left;
+                                    border: 1px solid black;
+                                    padding: 10px;
+                                "
+                            >
+                                Tên món
+                            </th>
+                            <!-- <th style="text-align: left; border: 1px solid black; padding: 10px;">Ghi chú</th> -->
+                            <th
+                                style="
+                                    text-align: left;
+                                    border: 1px solid black;
+                                    padding: 10px;
+                                "
+                            >
+                                Số lượng
+                            </th>
+                            <th
+                                style="
+                                    text-align: left;
+                                    border: 1px solid black;
+                                    padding: 10px;
+                                "
+                            >
+                                Đơn giá
+                            </th>
+                            <th
+                                style="
+                                    text-align: left;
+                                    border: 1px solid black;
+                                    padding: 10px;
+                                "
+                            >
+                                Thành tiền
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listData; let i = index">
+                            <td style="border: 1px solid black; padding: 10px">
+                                {{ i + 1 }}
+                            </td>
+                            <td style="border: 1px solid black; padding: 10px">
+                                {{ item.productName }}
+                            </td>
+                            <!-- <td style="border: 1px solid black; padding: 10px;">{{item.note ? item.note : 'Không có'}}</td> -->
+                            <td style="border: 1px solid black; padding: 10px">
+                                {{ item.quantity }}
+                            </td>
+                            <td style="border: 1px solid black; padding: 10px">
+                                {{
+                                    item.price
+                                        | currency : "VND" : "symbol" : "1.0-0"
+                                }}
+                            </td>
+                            <td style="border: 1px solid black; padding: 10px">
+                                {{
+                                    item.price * item.quantity
+                                        | currency : "VND" : "symbol" : "1.0-0"
+                                }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+            <div class="row pb-3">
+                <div class="col-md-6 p-4">
+                    <div class="d-flex justify-content-between mb-4">
+                        <h5>Tổng thanh toán</h5>
+                        <h6>
+                            {{
+                                totalPrice
+                                    | currency : "VND" : "symbol" : "1.0-0"
+                            }}
+                        </h6>
+                    </div>
+                </div>
+                <div class="p-4 col-md-6" style="border-left: 1px black solid">
+                    <div class="mb-2">
+                        <h5 for="Status">Hình thức thanh toán</h5>
+                        <input
+                            style="width: 20rem; height: 3rem"
+                            type="text"
+                            *ngIf="Status == 5"
+                            value="Chuyển khoản"
+                            readonly
+                        />
+                        <input
+                            style="width: 20rem"
+                            type="text"
+                            *ngIf="Status == 6"
+                            value="Tiền mặt"
+                            readonly
+                        />
+                    </div>
+                    <div class="d-flex justify-content-around row mt-2">
+                        <button
+                            class="btn btn-danger col-md-3"
+                            routerLink="/transactions"
+                        >
+                            Quay lại
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-end">
+    <!--  -->
+    <!-- <button class="btn btn-success mb-2" (click)="openModal(content)">
+                  <i class="mdi mdi-plus mr-2"></i> Th4m dịch vụ
+              </button> -->
+</div>
+
+<!-- <ng-template > -->
+
+<!-- </ng-template> -->

@@ -1,0 +1,112 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+  
+  <perfect-scrollbar>
+    <!--- Sidemenu -->
+    <div id="sidebar-menu" style="position: relative;">
+      <!-- Left Menu Start -->
+      <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
+        <ng-container *ngFor="let item of menuItems">
+          <li class="menu-title" *ngIf="item.isTitle">{{ item.label | translate }}</li>
+          <!-- Layouts menu -->
+          <li *ngIf="item.isLayout && item.role.includes(role)">
+            <a href="javascript: void(0);" class="has-arrow">
+              <i class="ri-layout-3-line"></i>
+              <span>Layouts</span>
+            </a>
+            <ul class="sub-menu" aria-expanded="false">
+              <li><a (click)="changeLayout('horizontal')" href="javascript: void(0);">{{
+                  'MENUITEMS.LAYOUTS.LIST.HORIZONTAL' | translate}}</a></li>
+              <li><a (click)="lightSidebar()" href="javascript: void(0);">{{ 'MENUITEMS.LAYOUTS.LIST.LIGHTSIDEBAR' |
+                  translate}}</a></li>
+              <li><a (click)="compactSidebar()" href="javascript: void(0);">{{ 'MENUITEMS.LAYOUTS.LIST.COMPACTSIDEBAR' |
+                  translate}}</a></li>
+              <li><a (click)="iconSidebar()" href="javascript: void(0);">{{ 'MENUITEMS.LAYOUTS.LIST.ICONSIDEBAR' |
+                  translate}}</a></li>
+              <li><a (click)="boxedLayout()" href="javascript: void(0);">{{ 'MENUITEMS.LAYOUTS.LIST.BOXED' |
+                  translate}}</a></li>
+            </ul>
+          </li>
+          <!-- end Layout menu -->
+
+          <li *ngIf="!item.isTitle && !item.isLayout  && item.role.includes(role)">
+            <a  *ngIf="hasItems(item)" href="javascript:void(0);" class="is-parent"
+              [ngClass]="{'has-arrow': !item.badge, 'has-dropdown': item.badge}">
+              <i class="bx {{item.icon}}" *ngIf="item.icon"></i>
+              <span> {{ item.label | translate }}</span>
+              <!-- <span class="badge badge-pill badge-{{item.badge.variant}} float-right"
+                *ngIf="item.badge">{{item.badge.text | translate}}</span> -->
+            </a>
+
+            <a [routerLink]="item.link" *ngIf="!hasItems(item)" class="side-nav-link-ref" routerLinkActive="active">
+              <i class="bx {{ item.icon }}" *ngIf="item.icon"></i>
+              <span> {{ item.label | translate }}</span>
+              <!-- <span class="badge badge-pill badge-{{item.badge.variant}} float-right"
+                *ngIf="item.badge">{{item.badge.text | translate}}</span> -->
+            </a>
+
+            <!-- <ul *ngIf="hasItems(item)" class="sub-menu" aria-expanded="false">
+              <li *ngFor="let subitem of item.subItems">
+                <a [routerLink]="subitem.link" *ngIf="!hasItems(subitem)" class="side-nav-link-ref"
+                  [attr.data-parent]="subitem.parentId" routerLinkActive="active">
+                  {{ subitem.label | translate }}
+                </a>
+                <a *ngIf="hasItems(subitem)" class="side-nav-link-a-ref has-arrow" href="javascript:void(0);"
+                  [attr.data-parent]="subitem.parentId">
+                  {{ subitem.label | translate }}
+                </a>
+                <ul *ngIf="hasItems(subitem)" class="sub-menu mm-collapse" aria-expanded="false">
+                  <li *ngFor="let subSubitem of subitem.subItems">
+                    <a [attr.data-parent]="subSubitem.parentId" [routerLink]="subSubitem.link" routerLinkActive="active"
+                      class="side-nav-link-ref">
+                      {{ subSubitem.label | translate }}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul> -->
+            <!-- Trong template -->
+            <ul *ngIf="hasItems(item)" class="sub-menu" aria-expanded="false">
+              <li *ngFor="let subitem of item.subItems">
+                <ng-container *ngIf="!hasItems(subitem)">
+                  <a [routerLink]="subitem.link" *ngIf="subitem.link; else noLinkAlert" class="side-nav-link-ref" [attr.data-parent]="subitem.parentId" routerLinkActive="active">
+                    {{ subitem.label | translate }}
+                  </a>
+                </ng-container>
+                <ng-template #noLinkAlert>
+                  <a (click)="showAlert('Nâng cấp gói dịch vụ')" class="side-nav-link-a-ref" href="javascript:void(0);" [attr.data-parent]="subitem.parentId">
+                    {{ subitem.label | translate }}
+                  </a>
+                </ng-template>
+                <ul *ngIf="hasItems(subitem)" class="sub-menu mm-collapse" aria-expanded="false">
+                  <li *ngFor="let subSubitem of subitem.subItems">
+                    <ng-container *ngIf="!subSubitem.link; else subSubitemLink">
+                      <a (click)="showAlert('Nâng cấp gói dịch vụ')" class="side-nav-link-ref" [attr.data-parent]="subSubitem.parentId">
+                        {{ subSubitem.label | translate }}
+                      </a>
+                    </ng-container>
+                    <ng-template #subSubitemLink>
+                      <a [routerLink]="subSubitem.link" routerLinkActive="active" class="side-nav-link-ref">
+                        {{ subSubitem.label | translate }}
+                      </a>
+                    </ng-template>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    <div style="position: fixed; bottom: 2rem;
+    right: 2rem ">
+      <button class="btn btn-secondary" (click)="scrollToTop()"> 
+        <i class="mdi mdi-arrow-up-bold" style="font-size: 30px"></i>
+      </button>
+    </div>
+    <!-- Sidebar -->
+  </perfect-scrollbar>
+</div>
+<!-- Left Sidebar End -->

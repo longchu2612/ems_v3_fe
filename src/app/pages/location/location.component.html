@@ -1,0 +1,210 @@
+<app-pagetitle title="{{'PAGE.REPORT.Location' | translate}}" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-end">
+            <!--  -->
+            <button class="btn btn-success mb-2" (click)="openModal(content)">
+                <i class="mdi mdi-plus mr-2"></i> {{'TABLE.AddMore' | translate}}
+            </button>
+        </div>
+        <div class="row mb-md-2">
+
+        </div>
+        <div class="table-responsive">
+            <table id="basic-datatable" class="table table-bordered dt-responsive nowrap  no-footer dtr-inline">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{{'PAGE.REPORT.Name' | translate}}</th>
+                        <!-- <th>Mô tả</th> -->
+                        <!-- <th>Giá tiền</th> -->
+                        <!-- <th>Trạng thái</th> -->
+                        <!-- <th>Ngày tạo</th> -->
+                        <th>{{'TABLE.UpdatedDate' | translate}}</th>
+                        <th width="100">{{'TABLE.Actions' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let data of listData;let i=index">
+                    <tr>
+                        <td>{{pageSize*(pageIndex-1) +i+1}}</td>
+                        <td>{{data.name}}</td>
+                        <!-- <td>{{data.description}}</td>
+                        <td>
+                            <ng-container *ngFor="let pr of data.prices">
+                              <p>
+                                {{pr.condition == 1 ? 'T2-T6' : 'T7,CN'}}:&nbsp;
+                                {{pr.price | number: '1.0-2'}} đ</p>
+                            </ng-container>
+
+                        </td> -->
+                        <!-- <td>
+                            <span class="badge badge-success" *ngIf="data.status == 1">Đang hoạt động</span>
+                            <span class="badge badge-danger" *ngIf="data.status != 1">Ngừng hoạt động</span>
+                        </td> -->
+                        <!-- <td>{{data.created_at | date:'dd/MM/yyyy HH:mm'}}</td> -->
+                        <td>{{data.updated_at | date:'dd/MM/yyyy HH:mm':'GMT'}}</td>
+
+                        <!-- <td>
+                            <a class="dropdown-item" href="javascript: void(0);" (click)="onEdit(data, content)"><i
+                                    class="mdi mdi-account-edit"></i>{{'FORM.Edit' | translate}}</a>
+                            <a class="dropdown-item" (click)="onDelete(data.id)"><i class="mdi mdi-delete"></i>{{'FORM.Delete' | translate}}</a>
+
+                        </td> -->
+                        <td class="py-2">
+                            <div class="d-flex" style="gap: 5px">
+
+                                <a class="font-size-18" href="javascript: void(0);" ngbTooltip="{{'FORM.Edit' | translate}}" placement="bottom-left" (click)="onEdit(data, content)">
+                                    <i class="mdi mdi-account-edit"></i>
+                                    <!-- {{'FORM.Edit' | translate}} -->
+                                </a>
+                                <a class="font-size-18 text-danger" ngbTooltip="{{'FORM.Delete' | translate}}" placement="bottom-left" (click)="onDelete(data.id)">
+                                    <i class="mdi mdi-delete"></i>
+                                    <!-- {{'FORM.Delete' | translate}} -->
+                                </a>
+                                <!-- <a class="font-size-18 text-body" ngbTooltip="{{'FORM.KeywordManager' | translate}}" placement="left" (click)="onOpenKeywordModal(contentKeyword, data)">
+                                    <i class="mdi mdi-cog"></i>
+                                </a> -->
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center mt-2">
+            <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                    {{'TABLE.Showing' | translate}}
+                    {{pageSize*pageIndex - pageSize + 1}}
+                    {{'TABLE.to' | translate}}
+                    {{pageSize*pageIndex}}
+                    {{'TABLE.of' | translate}}
+                    {{totalCount}}
+                    {{'TABLE.entries' | translate}}
+                </div>
+            </div>
+            <!-- Pagination -->
+            <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-end">
+
+                <div class="text-md-right float-md-right pagination-rounded">
+                    <ngb-pagination [collectionSize]="totalCount" [(page)]="pageIndex" [pageSize]="pageSize"
+                        (pageChange)="fetchData()">
+                    </ngb-pagination>
+                </div>
+                <div class="dataTables_length ml-3" id="tickets-table_length">
+                    <label class="d-inline-flex align-items-center mb-0"> {{'TABLE.Show' | translate}}
+                        <select name="tickets-table_length" aria-controls="tickets-table" name="pageSize"
+                            [(ngModel)]="pageSize" (ngModelChange)="pageIndex = 1;fetchData()"
+                            class="custom-select custom-select-sm form-control form-control-sm mx-2">
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                            <option [ngValue]="100">100</option>
+                        </select>
+                        {{'TABLE.entries' | translate}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #content role="document" let-modal="close">
+    <div class="modal-header">
+        <h5 class="modal-title">{{(formData.value.id ? "FORM.Edit" : "FORM.AddNew") | translate}}</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-3">
+        <div class="text-left">
+            <form (ngSubmit)="saveData()" [formGroup]="formData">
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label required_label">{{'PAGE.REPORT.Name' | translate}}</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" formControlName="name"
+                            [ngClass]="{'is-invalid': submitted && form.name.errors}" />
+                        <!-- <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.name.errors.required">{{'PAGE.REPORT.Name' | translate}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label">{{'PAGE.REPORT.Description' | translate}}</label>
+                    <div class="col-md-10">
+                        <textarea  rows="3" class="form-control form-control-sm" formControlName="description"></textarea>
+                        <!-- <input type="text" class="form-control" formControlName="description"
+                            [ngClass]="{'is-invalid': submitted && form.description.errors}" /> -->
+                        <!-- <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                            <span *ngIf="form.name.errors.required">{{'PAGE.REPORT.Name' | translate}}</span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">{{'PAGE.REPORT.Location' | translate}}</label>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="" class="font-size-13 mb-1">{{'PAGE.REPORT.Lat' | translate}}</label>
+                                <input type="number" class="form-control form-control-sm" formControlName="lat"
+                                [ngClass]="{'is-invalid': submitted && form.lat.errors}"/>
+                            </div>
+                            <div class="col-6">
+                                <label for="" class="font-size-13 mb-1">{{'PAGE.REPORT.Lng' | translate}}</label>
+                                <input type="number" class="form-control form-control-sm" formControlName="long"
+                                [ngClass]="{'is-invalid': submitted && form.long.errors}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group ">
+                    <label class="col-form-label">{{'PAGE.REPORT.Languages' | translate}}</label>
+                    <div class="col-12">
+                        <ng-container formArrayName="language">
+
+                            <ng-container *ngFor="let item of form.language['controls']; let i = index">
+                                <div class="row mb-2">
+
+                                    <div class="col-4" [formGroup]="item">
+                                        <label for="" class="font-size-13 mb-1 required_label">{{'PAGE.REPORT.Key' | translate}}</label>
+                                        <input type="text" class="form-control form-control-sm" formControlName="key"
+                                        [ngClass]="{'is-invalid': submitted && form.language['controls'][i].controls.key.errors}"/>
+                                    </div>
+                                    <div class="col-7" [formGroup]="item">
+                                        <label for="" class="font-size-13 mb-1 required_label">{{'PAGE.REPORT.Value' | translate}}</label>
+                                        <input type="text" class="form-control form-control-sm"
+                                            formControlName="value"  [ngClass]="{'is-invalid': submitted && form.language['controls'][i].controls.value.errors}"/>
+                                    </div>
+                                    <div class="col-1" *ngIf="form.language['controls'].length> 1">
+                                        <label for="" class="d-block font-size-13 mb-1">&nbsp;</label>
+                                        <i class="mdi mdi-delete text-danger clickable" (click)="removeLang(i)"></i>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <!-- <input type="text" class="form-control" formControlName="price"
+                          [ngClass]="{'is-invalid': submitted && form.price.errors}" mask="000,000,000,000,000.00"
+                          data-reverse="true" /> -->
+                        <!-- <div *ngIf="submitted && form.price.errors" class="invalid-feedback">
+                          <span *ngIf="form.price.errors.required">Chưa nhập thông tin.</span>
+                          <span *ngIf="form.price.errors.email"> không đúng định dạng.</span>
+                      </div> -->
+                        <button (click)="addLang()" type="button" class="btn btn-sm btn-primary mt-2">{{'PAGE.REPORT.AddLanguage' | translate}}</button>
+                    </div>
+                </div>
+
+
+                <div class="text-right">
+                    <button type="button" class="btn btn-secondary btn-sm mr-3"
+                        (click)="modal('close click')">{{'FORM.Close' | translate}}</button>
+                    <button type="submit" class="btn btn-primary btn-sm">{{'FORM.Save' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+

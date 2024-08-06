@@ -1,0 +1,360 @@
+{
+  "PAGE": {
+    "ADMIN": "行政",
+    "MENU": "菜单",
+    "LOGIN": {
+      "Title": "欢迎回来 ！",
+      "SubTitle": "登录以继续举报系统.",
+      "Username": "用户名",
+      "Password": "密码",
+      "UsernameRequired": "用户名是必需的",
+      "PasswordRequired": "密码是必需的",
+      "Remember": "记住账号",
+      "Login": "登录",
+      "Logout": "登出",
+      "Username or Password incorrect": "用户名或密码不正确",
+      "SessionTimeout": "会话超时",
+      "Pleaselogintocontinues": "请登录以继续"
+
+    },
+    "DASHBOARDS": {
+      "BreadcrumbTitle": "仪表板",
+      "Today": "วันนี้",
+      "7D": "7 วัน",
+      "1M": "1 เดือน",
+      "QuantityStatistics": "数量统计",
+      "Mon": "Mon",
+      "Tue": "Tue",
+      "Wed": "Wed",
+      "Thu": "Thu",
+      "Fri": "Fri",
+      "Sat": "Sat",
+      "Sun": "Sun",
+      "Jan": "Jan",
+      "Feb": "Feb",
+      "Mar": "Mar",
+      "Apr": "Apr",
+      "May": "May",
+      "Jun": "Jun",
+      "Jul": "Jul",
+      "Aug": "Aug",
+      "Sep": "Sep",
+      "Oct": "Oct",
+      "Nov": "Nov",
+      "Dec": "Dec"
+    },
+    "REPORT": {
+      "BreadcrumbTitle": "报告",
+      "Filter": "筛选",
+      "Search": "搜索",
+      "DateRange": "日期范围",
+      "SelectDateRange": "选择日期范围",
+      "IncidentType": "问题类型",
+      "IncidentDetail": "问题详情",
+      "SuggestIncident": "问题建议",
+      "SelectIncidentType": "选择问题类型",
+      "Type": "类型",
+      "Location": "地点",
+      "Detail": "细节",
+      "Image": "图像",
+      "Name": "姓名",
+      "Time": "时间",
+      "Note": "笔记",
+      "Status": "地位",
+      "New": "新的",
+      "OnGoing": "进行中",
+      "Pending": "待办的",
+      "Done": "完毕",
+      "ViewDetail": "查看详情",
+      "ViewImage": "看图",
+      "Languages": "语言",
+      "AddLanguage": "添加语言",
+      "Key": "钥匙",
+      "Value": "价值",
+      "Lat": "纬度",
+      "Lng": "经度",
+      "Description": "描述",
+      "other": "其他",
+      "trackCode": "追踪代码",
+      "ImageClasstification": "图像分类"
+
+    }
+  },
+  "TABLE": {
+    "CreatedDate": "创建日期",
+    "UpdatedDate": "更新日期",
+    "Actions": "行动",
+    "Showing": "显示中",
+    "to": "到",
+    "of": "的",
+    "entries": "条目",
+    "Show": "展示",
+    "AddMore": "添加更多"
+  },
+  "FORM": {
+    "Error": "ข้อผิดพลาด",
+    "ErrorMessage": "มีข้อผิดพลาดเกิดขึ้นโปรดลองอีกครั้ง",
+    "Success": "ความสำเร็จ",
+    "Cancel": "ยกเลิก",
+    "Close": "ปิด",
+    "Submit": "ส่ง",
+    "Save": "บันทึก",
+    "AddNew": "เพิ่มใหม่",
+    "Edit": "แก้ไข",
+    "Delete": "ลบ"
+  },
+  "HEADER": {
+    "SEARCH": "Search...",
+    "MEGA_MENU": "Mega Menu",
+    "NOTIFICATIONS": {
+      "TITLE": "Notifications",
+      "VIEW_ALL": "View All",
+      "LOAD_MORE": "View More..",
+      "FIRST": {
+        "TITLE": "Your order is placed",
+        "TEXT": "If several languages coalesce the grammar",
+        "TIME": "3 min ago"
+      },
+      "SECOND": {
+        "TITLE": "James Lemire",
+        "TEXT": "It will seem like simplified English.",
+        "TIME": "1 hours ago"
+      },
+      "THIRD": {
+        "TITLE": "Your item is shipped",
+        "TEXT": "If several languages coalesce the grammar",
+        "TIME": "3 min ago"
+      },
+      "FOUR": {
+        "TITLE": "Salena Layfield",
+        "TEXT": "As a skeptical Cambridge friend of mine occidental.",
+        "TIME": "1 hours ago"
+      }
+    },
+    "SETTINGS": "Settings",
+    "UI": {
+      "TITLE": "UI Components",
+      "LIGHTBOX": "LightBox",
+      "RANGE_SLIDER": "Range Slider",
+      "SWEET_ALERT": "Sweet Alert",
+      "RATING": "Rating",
+      "FORMS": "Forms",
+      "TABLES": "Tables",
+      "CHARTS": "Charts"
+    },
+    "APPLICATIONS": {
+      "TITLE": "Applications",
+      "ECOMMERCE": "Ecommerce",
+      "CALENDAR": "Calendar",
+      "EMAIL": "Email",
+      "PROJECTS": "Projects",
+      "TASKS": "Tasks",
+      "CONTACTS": "Contacts"
+    },
+    "EXTRA_PAGES": {
+      "TITLE": "Extra Pages",
+      "LIGHT_SIDEBAR": "Light Sidebar",
+      "COMPACT_SIDEBAR": "Compact Sidebar",
+      "HORIZONTAL_LAYOUT": "Horizontal layout",
+      "MAINTENANCE": "Maintenance",
+      "COMING SOON": "Coming Soon",
+      "TIMELINE": "Timeline",
+      "FAQ": "FAQs"
+    },
+    "LOGIN": {
+      "PROFILE": "Profile",
+      "MY_WALLET": "My Wallet",
+      "SETTINGS": "Settings",
+      "LOCK_SCREEN": "Lock screen",
+      "LOGOUT": "Logout"
+    }
+  },
+  "MENUITEMS": {
+    "MENU": {
+      "TEXT": "Menu"
+    },
+    "DASHBOARDS": {
+      "TEXT": "Dashboard",
+      "BADGE": "03"
+    },
+    "EMPLOYEES": {
+      "TEXT": "Nhân viên"
+    },
+    "SERVICES": {
+      "TEXT": "Incident Type"
+    },
+    "BOOKING": {
+      "TEXT": "Đơn hàng"
+    },
+    "LAYOUTS": {
+      "TEXT": "Layouts",
+      "LIST": {
+        "HORIZONTAL": "Horizontal",
+        "LIGHTSIDEBAR": "Light Sidebar",
+        "COMPACTSIDEBAR": "Compact Sidebar",
+        "ICONSIDEBAR": "Icons Sidebar",
+        "BOXED": "Boxed Layout",
+        "COLOREDSIDEBAR": "Colored Sidebar",
+        "VERTICAL": "Vertical",
+        "LIGHTTOPBAR": "Light Topbar",
+        "COLOREDHEADER": "Colored Header"
+      }
+    },
+    "APPS": {
+      "TEXT": "Apps"
+    },
+    "CALENDAR": {
+      "TEXT": "Calendar"
+    },
+    "CHAT": {
+      "TEXT": "Chat",
+      "BADGE": "New"
+    },
+    "REPORT": {
+      "TEXT": "Report",
+      "LIST": {
+        "INCOME": "Doanh thu",
+        "BOOKING": "Đơn hàng",
+        "EMPLOYEE": "Nhân viên"
+      }
+    },
+    "SETTING": {
+      "TEXT": "Cấu hình",
+      "LIST": {
+        "JOB": "Phân việc",
+        "PRICE": "Giá",
+        "PAYMENT": "Thanh toán"
+      }
+    },
+    "ECOMMERCE": {
+      "TEXT": "Ecommerce",
+      "LIST": {
+        "PRODUCTS": "Products",
+        "PRODUCTDETAIL": "Product Detail",
+        "ORDERS": "Orders",
+        "CUSTOMERS": "Customers",
+        "CART": "Cart",
+        "CHECKOUT": "Checkout",
+        "SHOPS": "Shops",
+        "ADDPRODUCT": "Add Product"
+      }
+    },
+    "EMAIL": {
+      "TEXT": "Email",
+      "LIST": {
+        "INBOX": "Inbox",
+        "READEMAIL": "Read Email"
+      }
+    },
+    "KANBAN": {
+      "TEXT": "Kanban Board"
+    },
+    "PAGES": {
+      "TEXT": "Pages"
+    },
+    "AUTHENTICATION": {
+      "TEXT": "Authentication",
+      "LIST": {
+        "LOGIN": "Login",
+        "REGISTER": "Register",
+        "RECOVERPWD": "Recover Password",
+        "LOCKSCREEN": "Lock screen"
+      }
+    },
+    "UTILITY": {
+      "TEXT": "Utility",
+      "LIST": {
+        "STARTER": "Starter Page",
+        "MAINTENANCE": "Maintenance",
+        "TIMELINE": "Timeline",
+        "COOMINGSOON": "Cooming Soon",
+        "FAQS": "FAQs",
+        "PRICING": "Pricing",
+        "ERROR404": "Error 404",
+        "ERROR500": "Error 500"
+      }
+    },
+    "COMPONENTS": {
+      "TEXT": "Components"
+    },
+    "UIELEMENTS": {
+      "TEXT": "UI Elements",
+      "LIST": {
+        "ALERTS": "Alerts",
+        "BUTTONS": "Buttons",
+        "CARDS": "Cards",
+        "CAROUSEL": "Carousel",
+        "DROPDOWNS": "Dropdowns",
+        "GRID": "Grid",
+        "IMAGES": "Images",
+        "MODALS": "Modals",
+        "RANGESLIDER": "Range Slider",
+        "PROGRESSBAR": "Progress Bars",
+        "SWEETALERT": "Sweet Alert",
+        "TABS": "Tabs & Accordions",
+        "TYPOGRAPHY": "Typography",
+        "VIDEO": "Video",
+        "GENERAL": "General"
+      }
+    },
+    "FORMS": {
+      "TEXT": "Forms",
+      "BADGE": "8",
+      "LIST": {
+        "ELEMENTS": "Form Elements",
+        "VALIDATION": "Form Validation",
+        "ADVANCED": "Form Advanced",
+        "EDITOR": "Form Editor",
+        "FILEUPLOAD": "Form File Upload",
+        "REPEATER": "Form Repeater",
+        "WIZARD": "Form Wizard",
+        "MASK": "Form Mask"
+      }
+    },
+    "TABLES": {
+      "TEXT": "Tables",
+      "LIST": {
+        "BASIC": "Basic Tables",
+        "ADVANCED": "Advanced Table"
+      }
+    },
+    "CHARTS": {
+      "TEXT": "Charts",
+      "LIST": {
+        "APEX": "Apex Chart",
+        "CHARTJS": "Chartjs Chart",
+        "CHARTIST": "Chartist Chart",
+        "ECHART": "E Chart"
+      }
+    },
+    "ICONS": {
+      "TEXT": "Icons",
+      "LIST": {
+        "REMIX": "Boxicons",
+        "MATERIALDESIGN": "Material Design",
+        "DRIPICONS": "Dripicons",
+        "FONTAWESOME": "Font awesome 5"
+      }
+    },
+    "MAPS": {
+      "TEXT": "Maps",
+      "LIST": {
+        "LEAFLET": "Leaflet Maps",
+        "GOOGLEMAP": "Google Maps"
+      }
+    },
+    "MULTILEVEL": {
+      "TEXT": "Multi Level",
+      "LIST": {
+        "LEVEL1": {
+          "1": "Level 1.1",
+          "2": "Level 1.2",
+          "LEVEL2": {
+            "1": "Level 2.1",
+            "2": "Level 2.2"
+          }
+        }
+      }
+    }
+  }
+}

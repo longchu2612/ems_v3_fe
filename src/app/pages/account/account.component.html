@@ -1,0 +1,468 @@
+<div class="card">
+  <div class="card-body" style="min-height: 400px">
+    <div class="mb-0">
+      <div class="mb-2">
+        <div class="row">
+          <div class="d-flex col col-md-12">
+            <h3
+              style="margin: 0px !important"
+              class="col-md-8 pt-1 text-success"
+            >
+              {{ person.full_name }}
+            </h3>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col col-md-12">
+            <p class="label_title col col-md-12 font-weight-bold">
+              Thông tin cá nhân
+            </p>
+            <div class="d-flex">
+              <div class="col col-md-4">
+                <img
+                  class="rounded-circle mb-4 rounded mx-auto d-block"
+                  src="assets/images/avt_default.jpg"
+                  alt="User Avatar"
+                  style="width: 145px"
+                />
+              </div>
+              <div class="col col-md-8 pt-4">
+                <div class="col d-flex">
+                  <p
+                    class="col col-md-5 label_title color_title_second color_title_second"
+                  >
+                    Họ tên:
+                  </p>
+                  <p class="col col-md-6 font-weight-bold text-success">
+                    {{ person.full_name }}
+                  </p>
+                </div>
+                <!-- <div class="col d-flex">
+                                    <p class="col col-md-5 label_title color_title_second color_title_second">Mã khách hàng: </p>
+                                    <p class="col col-md-6 font-weight-bold text-success">{{person.id}} </p>
+                                </div> -->
+                <div class="col d-flex">
+                  <p
+                    class="col col-md-5 label_title color_title_second color_title_second"
+                  >
+                    Số điện thoại:
+                  </p>
+                  <p class="col col-md-6 font-weight-bold text-success">
+                    {{ person.phone }}
+                  </p>
+                </div>
+                <div class="col d-flex">
+                  <p
+                    class="col col-md-5 label_title color_title_second color_title_second"
+                  >
+                    Địa chỉ:
+                  </p>
+                  <p class="col col-md-6 font-weight-bold text-success">
+                    {{ person.address }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <!-- <div class="row">
+                    <div class="col col-md-12">
+                        <p class="label_title col col-md-12">Thông tin tài khoản ngân hàng</p>
+                        <div class="d-flex">
+                            <div class="col col-md-4">
+                                <div *ngIf="data" class="align-items-center">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div class="d-flex flex-column m-4 w-75" style="background: linear-gradient(67.45deg, #278181 -1.69%, #71D8D8 15.97%, #49A9A9 32.39%, #71D8D8 49.33%, #71D8D8 61.51%, #389595 80.58%, #71D8D8 92.76%),
+                                    linear-gradient(108.78deg, #E9E8E8 13.22%, #F1F1F1 33.33%, #DCDCDC 54.71%, #F0F0F0 100%);
+                                    ; border: 0.91px solid;border-radius: 2rem; border-image-source: linear-gradient(108.78deg, #E9E8E8 13.22%, #F1F1F1 33.33%, #DCDCDC 54.71%, #F0F0F0 100%); margin-left: 1rem;">
+                                        <div class="m-4 text-white">QRPaysBox</div>
+                                        <div class="d-flex justify-content-center align-items-center flex-column m-4 flex-grow-1">
+                                            <div class="text-white">{{data.full_name}}</div>
+                                            <div class="text-white">*** ***{{data.customer_code}}</div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="col col-md-8 mt-4 pt-4">
+                                <div class="col d-flex">
+                                    <p class="col col-md-5 label_title color_title_second color_title_second">Ngân hàng:</p>
+                                    <p class="col col-md-6">{{data.bank_name || 'Chưa tồn tại'}}</p>
+                                </div>
+                                <div class="col d-flex">
+                                    <p class="col col-md-5 label_title color_title_second color_title_second">Số tài khoản:</p>
+                                    <p class="col col-md-6">{{data.bank_account || 'Chưa tồn tại'}}</p>
+                                </div>
+                                <div class="col d-flex">
+                                    <p class="col col-md-5 label_title color_title_second color_title_second">Chủ tài khoản:</p>
+                                    <p class="col col-md-6">{{data.bank_account_name || 'Chưa tồn tại'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+        <div class="row">
+          <div class="col col-md-12">
+            <div class="d-flex row">
+              <p class="label_title col col-md-9 font-weight-bold">
+                Thông tin tài khoản ngân hàng
+              </p>
+              <button
+                class="btn btn-success mb-2 col-md-3"
+                (click)="openModal(content)"
+              >
+                <i class="mdi mdi-plus mr-2"></i>
+                {{ " Thêm mới tài khoản" | translate }}
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table
+                id="basic-datatable"
+                class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+              >
+                <thead>
+                  <tr class="bg-table">
+                    <!-- <th>STT</th> -->
+                    <th>#</th>
+                    <!-- <th>{{'PAGE.REPORT.Type' | translate}}</th> -->
+                    <th>Tên ngân hàng</th>
+                    <!-- <th>'PAGE.REPORT.Location' </th> -->
+                    <th>Chủ tài khoản</th>
+                    <th>Số tài khoản</th>
+                    <th>Ngày tạo</th>
+                    <!-- <th>Ngày tạo đơn</th>-->
+                    <th>Ngày cập nhật</th>
+                    <th>{{ "TABLE.Actions" | translate }}</th>
+                    <!-- <th>{{'Action' | translate}}</th> -->
+                  </tr>
+                </thead>
+                <tbody *ngFor="let data of listBank; let i = index">
+                  <tr
+                    class="clickable"
+                    (click)="onRowClick(data, i)"
+                    [class.active-row]="selectedIndex === i"
+                  >
+                    <!-- <td>{{i+(pageSize*pageIndex - pageSize + 1)}}</td> -->
+                    <!-- <td style="text-decoration: underline; color: #204cd9 ;"
+                                            (click)="onDetailBooking(data, detailBooking)">#{{data?.id}}</td> -->
+                    <td>
+                      {{ pageSizelist * (pageIndexlist - 1) + i + 1 }}
+                    </td>
+                    <td>
+                      {{ data?.bank_name }}
+                    </td>
+                    <td>
+                      {{ data?.bank_account_name }}
+                    </td>
+
+                    <td>
+                      {{ data?.account_number }}
+                    </td>
+
+                    <!-- <td>
+                                            <span class="font-size-12 badge badge-danger" *ngIf="data.status == '0'">{{'Từ chối' |
+                                                translate}}</span>
+                                            <span class="font-size-12 badge badge-warning" *ngIf="data.status == '2'">{{'Đang xử lý' |
+                                                translate}}</span>
+                                            <span class="font-size-12 badge badge-success" *ngIf="data.status == '1'">{{'Đã duyệt' |
+                                                translate}}</span>
+                                            <span class="badge badge-danger" *ngIf="data.status == 'completed'">Đơn hàng hoàn
+                                                thành</span>
+                                            <span class="badge badge-danger" *ngIf="data.status == 'canceled'">Đơn hàng bị huỷ</span>
+                                        </td> -->
+                    <td>{{ data.created_at | date : "dd/MM/yyyy HH:mm" }}</td>
+                    <td>{{ data.updated_at | date : "dd/MM/yyyy HH:mm" }}</td>
+
+                    <td class="text-center">
+                      <a
+                        class="font-size-18"
+                        href="javascript: void(0);"
+                        ngbTooltip="{{ 'FORM.Edit' | translate }}"
+                        placement="bottom-left"
+                        (click)="onEdit(data, content)"
+                      >
+                        <i class="mdi mdi-account-edit"></i>
+                        <!-- {{'FORM.Edit' | translate}} -->
+                      </a>
+                      <a
+                        class="font-size-18 text-danger"
+                        ngbTooltip="{{ 'FORM.Delete' | translate }}"
+                        placement="bottom-left"
+                        (click)="onDelete(data.id)"
+                      >
+                        <i class="mdi mdi-delete"></i>
+                        <!-- {{'FORM.Delete' | translate}} -->
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <button (click)="getLocation()">Lấy Vị Trí</button>
+                <div *ngIf="latitude && longitude">
+                Vị trí của bạn: {{ latitude }}, {{ longitude }}
+                </div> -->
+        <hr *ngIf="flag == 1" />
+        <div class="row" *ngIf="flag == 1">
+          <div class="col col-md-12">
+            <p class="label_title col col-md-12 font-weight-bold">
+              Lịch sử giao dịch
+            </p>
+            <div class="table-responsive">
+              <table
+                id="basic-datatable"
+                class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+              >
+                <thead>
+                  <tr class="bg-table">
+                    <!-- <th>STT</th> -->
+                    <th>#</th>
+                    <!-- <th>{{'PAGE.REPORT.Type' | translate}}</th> -->
+                    <th>Mã giao dịch</th>
+                    <th>Số seri</th>
+                    <th>Số tài khoản</th>
+                    <!-- <th>'PAGE.REPORT.Location' </th> -->
+                    <th>Số tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <!-- <th>Ngày tạo đơn</th>-->
+                    <!-- <th>Ngày cập nhật</th> -->
+                    <th>{{ "TABLE.Actions" | translate }}</th>
+                    <!-- <th>{{'Action' | translate}}</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listTrans; let i = index"
+                    class="clickable"
+                  >
+                    <!-- <td>{{i+(pageSize*pageIndex - pageSize + 1)}}</td> -->
+                    <!-- <td style="text-decoration: underline; color: #204cd9 ;"
+                                            (click)="onDetailBooking(data, detailBooking)">#{{data?.id}}</td> -->
+                    <td>
+                      {{ pageSize * (pageIndex - 1) + i + 1 }}
+                    </td>
+                    <td>
+                      {{ data?.code }}
+                    </td>
+                    <td>
+                      {{ data?.serial_number }}
+                    </td>
+                    <td>
+                      {{ data?.account_number }}
+                    </td>
+                    <td>
+                      {{ data?.total | currency : "VND" : "symbol" : "1.0-0" }}
+                    </td>
+
+                    <td>
+                      <span
+                        class="font-size-12 badge badge-danger"
+                        *ngIf="data.status == '0'"
+                        >{{ "Từ chối" | translate }}</span
+                      >
+                      <span
+                        class="font-size-12 badge badge-warning"
+                        *ngIf="data.status == '2'"
+                        >{{ "Đang xử lý" | translate }}</span
+                      >
+                      <span
+                        class="font-size-12 badge badge-success"
+                        *ngIf="data.status == '1'"
+                        >{{ "Đã duyệt" | translate }}</span
+                      >
+                      <!-- <span class="badge badge-danger" *ngIf="data.status == 'completed'">Đơn hàng hoàn
+                                                thành</span>
+                                            <span class="badge badge-danger" *ngIf="data.status == 'canceled'">Đơn hàng bị huỷ</span> -->
+                    </td>
+                    <td>{{ data.created_at | date : "dd/MM/yyyy HH:mm" }}</td>
+                    <!-- <td>{{data.updated_at | date:'dd/MM/yyyy HH:mm'}}</td> -->
+                    <td class="text-center">
+                      <a
+                        class="font-size-18 text-success"
+                        ngbTooltip="{{ 'Chi tiết' | translate }}"
+                        (click)="viewDetails(data)"
+                      >
+                        <i class="mdi mdi-eye"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="row justify-content-md-between align-items-md-center mt-2"
+            >
+              <div class="col-sm-12 col-md-5">
+                <div
+                  class="dataTables_info mb-2"
+                  id="tickets-table_info"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {{ "TABLE.Showing" | translate }}
+                  {{ pageSize * pageIndex - pageSize + 1 }}
+                  {{ "TABLE.to" | translate }}
+                  {{ pageSize * pageIndex }}
+                  {{ "TABLE.of" | translate }}
+                  {{ totalElements }}
+                  {{ "TABLE.entries" | translate }}
+                </div>
+              </div>
+              <!-- Pagination -->
+              <div
+                class="col-sm-12 col-md-5 d-flex align-items-center justify-content-end"
+              >
+                <div class="text-md-right float-md-right pagination-rounded">
+                  <ngb-pagination
+                    [collectionSize]="totalElements"
+                    [(page)]="pageIndex"
+                    [pageSize]="pageSize"
+                    (pageChange)="getlistTransaction()"
+                  >
+                  </ngb-pagination>
+                  <!-- <button class="btn btn-secondary" (click)="goToPreviousPage()" [disabled]="pageIndex === 1">
+                                        Trước Page
+                                    </button>
+                                    <button class="btn btn-secondary" (click)="goToNextPage()" [disabled]="pageIndex === totalElements">
+                                        Sau Page
+                                    </button> -->
+                </div>
+                <div class="dataTables_length ml-3" id="tickets-table_length">
+                  <label class="d-inline-flex align-items-center mb-0">
+                    {{ "TABLE.Show" | translate }}
+                    <select
+                      name="tickets-table_length"
+                      aria-controls="tickets-table"
+                      name="pageSize"
+                      [(ngModel)]="pageSize"
+                      (ngModelChange)="pageIndex = 1; getlistTransaction()"
+                      class="custom-select custom-select-sm form-control form-control-sm mx-2"
+                    >
+                      <option [ngValue]="5">5</option>
+                      <option [ngValue]="10">10</option>
+                      <option [ngValue]="20">20</option>
+                      <option [ngValue]="50">50</option>
+                    </select>
+                    {{ "TABLE.entries" | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <!-- End search -->
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <!--  -->
+      <!-- <button class="btn btn-success mb-2" (click)="openModal(content)">
+              <i class="mdi mdi-plus mr-2"></i> Th4m dịch vụ
+          </button> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #content role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ (formData.value.id ? "FORM.Edit" : "FORM.AddNew") | translate }}
+    </h5>
+    <!-- <div *ngIf="makeForm('password').hasError('required')" class="error-message">
+            Mật khẩu không được bỏ trống.
+        </div> -->
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData()" [formGroup]="formData">
+        <div class="row">
+          <div class="form-group row col-md-12">
+            <label class="col-md-3 col-form-label required_label">{{
+              "Ngân hàng" | translate
+            }}</label>
+            <div class="col-md-9">
+              <!-- <select class="form-select" aria-label="Default select example" class="form-control" formControlName="bank_name"  [ngClass]="{'is-invalid': submitted && form.model.errors}">
+                                <option value="{{item}}" *ngFor="let item of listBankname" >{{item}}</option>
+                            </select> -->
+              <input
+                type="text"
+                class="form-control"
+                formControlName="model"
+                [ngClass]="{ 'is-invalid': submitted && form.model.errors }"
+                value="MB Bank"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <label class="col-md-3 col-form-label required_label">{{
+              "Số tài khoản" | translate
+            }}</label>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="account_number"
+                [ngClass]="{
+                  'is-invalid': submitted && form.account_number.errors
+                }"
+              />
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <label class="col-md-3 col-form-label required_label">{{
+              "Chủ tài khoản" | translate
+            }}</label>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="bank_account_name"
+                [ngClass]="{
+                  'is-invalid': submitted && form.bank_account_name.errors
+                }"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn btn-danger btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+          <!-- <button type="button" class="btn btn-secondary btn-sm" style="width: 150px"
+                    (click)="modal('close click')">{{'FORM.Close' | translate}}</button>
+                <button type="button" class="btn btn-primary btn-sm ml-3" style="width: 150px"
+                    (click)="updateFormNote()">{{'FORM.Save' | translate}}</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

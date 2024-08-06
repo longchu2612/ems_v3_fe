@@ -1,0 +1,143 @@
+<div class="main-panel" id="main-panel">
+    
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="title">Thông tin quán ăn</h3>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="name">Tên quán</label>
+                        <input type="text" class="form-control" id="name" [(ngModel)]="name" name="name" placeholder="{{listData.name}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" [(ngModel)]="address" name="address" placeholder="{{listData.address}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                   
+                    <!-- <div class="col-md-6 px-1">
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" placeholder="Email liên hệ">
+                      </div>
+                    </div> -->
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="phone" class="form-control" id="phone" [(ngModel)]="phone" name="phoneNumber" placeholder="{{listData.phone}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="taxNo">Mã số thuế</label>
+                        <input type="text" class="form-control" id="taxNo" [(ngModel)]="taxNo" name="taxNo" placeholder="{{listData.taxNo}}">
+                      </div>
+                    </div>
+                  </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success"  (click)="configShop()">Thay đổi thông tin quán</button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content role="document" let-modal="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Thay đổi mật khẩu
+      </h5>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-3">
+      <div class="text-left">
+        <form (ngSubmit)="saveData()" [formGroup]="formData">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex row">
+                  <div class="ml-4 col-md-11">
+                    <div class="mb-4">
+                      <strong>Mật khẩu cũ</strong>
+                      <input
+                        type="password"
+                        formControlName="oldPassword"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="mb-4">
+                      <strong>Mật khẩu mới</strong>
+                      <input
+                        type="password"
+                        formControlName="newPassword"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="mb-4">
+                      <strong>Nhập lại mật khẩu</strong>
+                      <input
+                        type="password"
+                        formControlName="confirmPassword"
+                        class="form-control"
+                      />
+                      <div *ngIf="formData.get('confirmPassword').errors?.passwordMismatch">
+                        <span class="text-danger">Mật khẩu xác nhận không khớp</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="text-danger">
+            {{ errorMessage }}
+          </div>
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-secondary btn-lg mr-3"
+              style="width: 150px"
+              (click)="modal('close click')"
+            >
+              {{ "Đóng" | translate }}
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success btn-lg"
+              style="width: 150px"
+            >
+              {{ "Lưu" | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>

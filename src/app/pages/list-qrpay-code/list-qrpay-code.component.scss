@@ -1,0 +1,37 @@
+.borderQR{
+    position: relative;
+    display: flex;
+}
+
+.borderGenQR{
+    position: absolute;
+    z-index: 555;
+}
+
+.qrcode{
+    display: flex;
+    padding-top: 57px;
+    margin-left: 88px !important;
+    // padding-left: 80px;
+    // position: relative;
+}
+
+.btnall{
+    height: 38px !important;
+}
+
+.logoMB{
+    width: 40px;
+    height: 40px;
+    z-index: 999;
+    position: absolute;
+    display: flex;
+    margin-left: 70px;
+    margin-top: 73px;
+    background-color: white;
+    border-radius: 19px;
+    -webkit-border-radius: 19px;
+    -moz-border-radius: 19px;
+    -ms-border-radius: 19px;
+    -o-border-radius: 19px;
+}

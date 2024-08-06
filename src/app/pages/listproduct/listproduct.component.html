@@ -1,0 +1,468 @@
+<!-- <app-pagetitle title="{{'PAGE.REPORT.IncidentType' | translate}}" [breadcrumbItems]="breadCrumbItems"></app-pagetitle> -->
+
+<div class="card">
+  <div class="card-body">
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-3 mt-4 ml-2">
+        <div style="position: relative">
+          <button class="btn-grad" (click)="toggleDropdown()">
+            Thực đơn
+            <span
+              class="mdi mdi-arrow-down-drop-circle-outline mdi-26px"
+            ></span>
+          </button>
+          <div
+            *ngIf="showDropdown"
+            (mousedown)="onMouseDown($event)"
+            id="dropdown"
+            style="z-index: 999; position: absolute; top: 45px; left: 0px"
+            class="filter p-4 rounded"
+          >
+            <div>
+              <div *ngFor="let item of listCategoriesName">
+                <button
+                  class="btn-1 rounded-lg p-2 mb-2"
+                  style="border: none"
+                  (click)="selectCategory(item.id)"
+                >
+                  {{ item.categoryName }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex">
+        <div>
+          <label for="validationCustom01" class="d-block">&nbsp;</label>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="filter.name"
+              placeholder="{{ 'Tìm kiếm' | translate }}"
+            />
+          </div>
+        </div>
+        <div>
+          <label for="validationCustom01" class="d-block">&nbsp;</label>
+          <div style="min-width: 200px; padding-left: 15px">
+            <div class="form-group">
+              <button class="btn btn-primary btnall" (click)="submitFilter()">
+                {{ "PAGE.REPORT.Search" | translate }}
+              </button>
+              <button
+                class="btn btn-dark ml-2"
+                *ngIf="searching"
+                (click)="clearFilter()"
+              >
+                {{ "FORM.Clear" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="
+        background-color: antiquewhite;
+        border-radius: 20px;
+        min-height: 70vh;
+        position: relative;
+      "
+    >
+      <div class="container px-4 pt-1" *ngFor="let item of listCategories">
+        <h4
+          style="
+            color: #1b4965;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 10px;
+          "
+        >
+          {{ item }}
+        </h4>
+        <div class="row">
+          <button
+            class="listproducts col-md-3 col-sm-6 btn"
+            (click)="openModal(content, product)"
+            *ngFor="let product of productsByCategory[item]; let index = index"
+          >
+            <img
+              style="width: 100%; height: 120px; border-radius: 20px"
+              src="{{ product.image }}"
+            />
+            <div class="text-black mt-2">
+              <h5>{{ product.name }}</h5>
+              <p>{{ product.price | currency : "VND" }}</p>
+            </div>
+          </button>
+        </div>
+        <hr style="margin: 1rem !important;" />
+      </div>
+    </div>
+
+    <div class="text-right m-4" style="position: fixed;
+    top: 30rem;
+    right: 0.5rem;
+    ">
+      <button class="btn btn-info" style="background-color: #1b4965; border:#1b4965; width: 7rem;
+      height: 3rem;" routerLink="/cart">Giỏ hàng</button>
+      <!-- <button
+        class="btn btn-success ml-4"
+        routerLink="/serve/serve-service/{{ orderId }}"
+      >
+        Chi tiết hóa đơn
+      </button> -->
+    </div>
+  </div>
+</div>
+
+<ng-template #content role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Thêm vào giỏ hàng</h5>
+
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData()" [formGroup]="formData">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex row">
+                <div>
+                  <img
+                    class="rounded"
+                    style="width: 160px; height: 140px; margin-top: 30px"
+                    src="{{ formData.value.image }}"
+                  />
+                  <!-- <div class="rounded-2xl" style="width: 130px; height: 120px; background-image: url('{{ formData.value.img }}'); background-size: cover; background-position: center;"></div> -->
+                </div>
+                <div class="ml-4 col-md-9">
+                  <div>
+                    <strong>Tên sản phẩm: </strong>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="name"
+                      class="form-control"
+                    />
+                  </div>
+                  <p>
+                    <strong>Giá:</strong>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="price"
+                      class="form-control"
+                    />
+                  </p>
+                  <p>
+                    <strong>Số lượng: </strong>
+                    <input
+                      type="number"
+                      formControlName="quantity"
+                      class="form-control"
+                    />
+                  </p>
+                </div>
+              </div>
+              <div class="my-4">
+                <h4>Ghi chú đơn hàng</h4>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="note"
+                  style="height: 100px; border-radius: 10px"
+                  placeholder="Nội dung"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #contentDetail role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ "Chi tiết" | translate }}
+    </h5>
+    <!-- <div *ngIf="makeForm('password').hasError('required')" class="error-message">
+              Mật khẩu không được bỏ trống.
+          </div> -->
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData()" [formGroup]="formData">
+        <div class="row">
+          <div class="form-group row col-md-12">
+            <label class="col-md-2 col-form-label required_label">{{
+              "ID" | translate
+            }}</label>
+            <div class="col-md-10">
+              <input
+                style="border-radius: 2rem"
+                type="text"
+                class="form-control"
+                formControlName="id"
+                [ngClass]="{ 'is-invalid': submitted && form.id.errors }"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <label class="col-md-2 col-form-label required_label">{{
+              "Tên" | translate
+            }}</label>
+            <div class="col-md-10">
+              <input
+                style="border-radius: 2rem"
+                type="text"
+                class="form-control"
+                value="{{ name }}"
+                readonly
+                formControlName="categoryName"
+                [ngClass]="{
+                  'is-invalid': submitted && form.categoryName.errors
+                }"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="text-right">
+                      <button type="button" class="btn btn-secondary btn-sm mr-3"
+                          (click)="modal('close click')">{{'Đóng' | translate}}</button>
+                      <button type="submit" class="btn btn-primary btn-sm">{{'Lưu' | translate}}</button>
+                  </div> -->
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentLink role="document" let-modal="close">
+  <div class="modal-header">
+    <h5 class="modal-title">
+      {{ "Liên kết thiết bị và tài khoản" | translate }}
+    </h5>
+    <!-- <div *ngIf="makeForm('password').hasError('required')" class="error-message">
+              Mật khẩu không được bỏ trống.
+          </div> -->
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData2()" [formGroup]="formData2">
+        <div class="row">
+          <div class="form-group row col-md-12">
+            <div class="col mt-3">
+              <div class="d-flex">
+                <label class="col-md-4 col-form-label required_label">{{
+                  "Thiết bị" | translate
+                }}</label>
+                <div class="col-md-8">
+                  <ng-select formControlName="device_id">
+                    <ng-option [value]="-1">Chọn thiết bị</ng-option>
+                    <ng-option
+                      [value]="item.device_id"
+                      *ngFor="let item of listData2"
+                    >
+                      {{ item.serial_number }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row col-md-12">
+            <div class="col mt-3">
+              <div class="d-flex">
+                <label class="col-md-4 col-form-label required_label">{{
+                  "Tài khoản" | translate
+                }}</label>
+                <div class="col-md-8">
+                  <ng-select formControlName="bankaccount_id">
+                    <ng-option [value]="-1">Chọn tài khoản</ng-option>
+                    <ng-option
+                      [value]="item.bankaccount_id"
+                      *ngFor="let item of listData3"
+                    >
+                      {{ item.account_number }} - {{ item.bank_account_name }} -
+                      {{ item.bank_name }}</ng-option
+                    >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="text-right">
+                      <button type="button" class="btn btn-secondary btn-sm mr-3"
+                          (click)="modal('close click')">{{'Đóng' | translate}}</button>
+                      <button type="submit" class="btn btn-primary btn-sm">{{'Lưu' | translate}}</button>
+                  </div> -->
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg mr-3"
+            style="width: 150px"
+            (click)="modal('close click')"
+          >
+            {{ "Đóng" | translate }}
+          </button>
+          <button
+            type="submit"
+            class="btn btn-danger btn-lg"
+            style="width: 150px"
+          >
+            {{ "Lưu" | translate }}
+          </button>
+          <!-- <button type="button" class="btn btn-secondary btn-sm" style="width: 150px"
+                      (click)="modal('close click')">{{'FORM.Close' | translate}}</button>
+                  <button type="button" class="btn btn-primary btn-sm ml-3" style="width: 150px"
+                      (click)="updateFormNote()">{{'FORM.Save' | translate}}</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentKeyword let-modalHis="close">
+  <div class="modal-header">
+    <h5 class="modal-title">List keyword of "{{ selectedIncident.name }}"</h5>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modalHis('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="mb-3" *ngIf="formNewKeyword">
+      <h5 class="font-size-14">Add New Keyword</h5>
+      <form
+        [formGroup]="formNewKeyword"
+        (submit)="onSubmitFormKeyword(2)"
+        class="d-flex"
+      >
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          style="width: 250px"
+          formControlName="name"
+        />
+        <button class="btn btn-primary btn-sm ml-3" style="width: 150px">
+          Add
+        </button>
+      </form>
+    </div>
+    <div class="table-responsive">
+      <table
+        id="basic-datatable"
+        class="table table-bordered dt-responsive nowrap no-footer dtr-inline"
+      >
+        <thead>
+          <tr>
+            <th width="50">#</th>
+            <th>Name</th>
+            <!-- <th>Thời gian</th> -->
+            <th width="170"></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let data of dataKeyword; let i = index">
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>
+              <ng-container
+                *ngIf="
+                  selectedKeyword?.id == data.id && formEditKeyword;
+                  else normal
+                "
+              >
+                <form
+                  [formGroup]="formEditKeyword"
+                  (submit)="onSubmitFormKeyword(1)"
+                >
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    formControlName="name"
+                  />
+                </form>
+              </ng-container>
+              <ng-template #normal>{{ data.name }}</ng-template>
+            </td>
+            <!-- <td>{{data.created_at*1000 | date:'dd/MM/yyyy HH:mm'}}</td> -->
+            <td>
+              <div class="d-flex" style="gap: 10px">
+                <a
+                  class="btn btn-sm btn-success"
+                  href="javascript: void(0);"
+                  (click)="editKeyword(data, i)"
+                >
+                  <i class="mdi mdi-account-edit"></i
+                  >{{ "FORM.Edit" | translate }}</a
+                >
+                <a
+                  class="text-white btn btn-sm btn-danger"
+                  (click)="onDeleteKeyword(data.id)"
+                  ><i class="mdi mdi-delete"></i
+                  >{{ "FORM.Delete" | translate }}</a
+                >
+              </div>
+              <!-- <button class="btn" (click)="editKeyword(data,i)">Sửa</button>
+                              <button>Xoá</button> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

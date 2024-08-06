@@ -1,0 +1,150 @@
+<div class="main-panel" id="main-panel">
+    
+    <div class="panel-header panel-header-sm">
+    </div>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="title">Thông tin cá nhân</h5>
+            </div>
+            <div class="card-body">
+              <form>
+                <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label for="fullName">Họ và tên</label>
+                        <input type="text" class="form-control" id="fullName" [(ngModel)]="fullName" name="fullName" placeholder="{{data.fullName}}">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" [(ngModel)]="address" name="address" placeholder="Địa chỉ">
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="row ">
+                    <!-- <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        <label for="city">Thành phố</label>
+                        <input type="text" class="form-control" id="city" [(ngModel)]="city" name="city" placeholder="Thành phố">
+                      </div>
+                    </div> -->
+                    <div class="col-md-6 pl-3">
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" placeholder="{{data.email}}">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="phoneNumber">Số điện thoại</label>
+                        <input type="phone" class="form-control" id="phoneNumber" [(ngModel)]="phoneNumber" name="phoneNumber" placeholder="{{data.phone}}">
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="bio">Tiểu sử</label>
+                        <textarea rows="4" cols="80" class="form-control" id="bio" [(ngModel)]="bio" name="bio" placeholder="Tiểu sử cá nhân"></textarea>
+                      </div>
+                    </div>
+                  </div> -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary"  (click)="logFormValues()">Thay đổi</button>
+                            <!-- <button type="button" class="btn btn-secondary"  (click)="resetPassword()">Đặt lại mật khẩu</button> -->
+                            <button type="button" class="btn btn-success"  (click)="openModal(content)">Đổi mật khẩu</button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content role="document" let-modal="close">
+    <div class="modal-header">
+      <h5 class="modal-title">Thay đổi mật khẩu
+      </h5>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body p-3">
+      <div class="text-left">
+        <form (ngSubmit)="saveData()" [formGroup]="formData">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="d-flex row">
+                  <div class="ml-4 col-md-11">
+                    <div class="mb-4">
+                      <strong>Mật khẩu cũ</strong>
+                      <input
+                        type="password"
+                        formControlName="oldPassword"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="mb-4">
+                      <strong>Mật khẩu mới</strong>
+                      <input
+                        type="password"
+                        formControlName="newPassword"
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="mb-4">
+                      <strong>Nhập lại mật khẩu</strong>
+                      <input
+                        type="password"
+                        formControlName="confirmPassword"
+                        class="form-control"
+                      />
+                      <div *ngIf="formData.get('confirmPassword').errors?.passwordMismatch">
+                        <span class="text-danger">Mật khẩu xác nhận không khớp</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="text-danger">
+            {{ errorMessage }}
+          </div>
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn btn-secondary btn-lg mr-3"
+              style="width: 150px"
+              (click)="modal('close click')"
+            >
+              {{ "Đóng" | translate }}
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success btn-lg"
+              style="width: 150px"
+            >
+              {{ "Lưu" | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>

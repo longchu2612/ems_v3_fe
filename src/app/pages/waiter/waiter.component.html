@@ -1,0 +1,96 @@
+<div class="card">
+    <div class="card-body" style="min-height: 400px">
+      <div class="mb-0">
+        <div class="mb-2">
+          <!-- <h5>{{ "Chi tiết đơn hàng" | translate }}</h5> -->
+          <div class="flex-fill row"></div>
+        </div>
+      </div>
+      <div>
+        <div>
+          <hr />
+          <div class="contents">
+            <div class="row">
+              <div
+                style="cursor: pointer"
+                (click)="openModal(content , data)"
+                class="col-md-3 my-4"
+                *ngFor="let data of listData; let index = index"
+              >
+                <div
+                  class="p-4"
+                  style="border: 2px solid black; border-radius: 10px"
+                >
+                  <div class="text-center">
+                    <h4>{{ data?.name }} - {{data?.position}} </h4>
+                    <hr style="border: 2px solid black" />
+                    <h5 *ngIf="!data.status" class="text-success">
+                      Đang sử dụng
+                    </h5>
+                    <h5 *ngIf="data.status" class="text-danger">Trống</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <ng-template #content role="document" let-modal="close">
+      <div class="modal-header">
+        <div class="text-center">
+          <h5 class="modal-title">
+            Nhập tên khách hàng
+          </h5>
+        </div>
+
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-3">
+        <div class="text-left">
+          <form (ngSubmit)="saveData()" [formGroup]="formData">
+            <div class="container">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="d-flex row">
+                          <div class="ml-4 col-md-12">
+                              <div ><strong >Tên bàn: </strong> <input type="text" readonly formControlName="name" class="form-control"> </div>
+                              <p><strong>Họ tên:</strong> <input type="text" formControlName="customerName" class="form-control"></p>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+<!--
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn btn-secondary btn-lg mr-3"
+                style="width: 150px"
+                (click)="modal('close click')"
+              >
+                {{ "Đóng" | translate }}
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success btn-lg"
+                style="width: 150px"
+              >
+                {{ "Xác nhận" | translate }}
+              </button>
+            </div> -->
+          </form>
+        </div>
+      </div>
+    </ng-template>
